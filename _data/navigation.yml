@@ -15,13 +15,13 @@ main:
 docs:
   - title: MYPORTFOLIO
     children:
-      - title: "Final-Project"
+      - title: "Final Project"
         url: /docs/quick-start-guide/
-      - title: "Java-Project"
+      - title: "Java Project"
         url: /docs/structure/
-      - title: "Data-Analysis-Project"
+      - title: "Data Analysis Project"
         url: /docs/installation/
-      - title: "Etc-Project"
+      - title: "Etc"
         url: /docs/upgrading/
 
   - title: STUDY
@@ -34,14 +34,14 @@ docs:
         url: /docs/ui-text/
       - title: "JavaScript"
         url: /docs/navigation/
-      - title: "SpringFramework"
+      - title: "Spring Framework"
         url: /docs/navigation/
         
    - title: CODINGTEST
     children:
-      - title: "PYTHON"
+      - title: "Python"
           url: /docs/navigation/
-      - title: "JAVA"
+      - title: "Java"
           url: /docs/navigation/
       
 
