@@ -13,7 +13,7 @@ main:
     url: https://google.com
   
 docs:
-  - title: MY-PORTFOLIO
+  - title: MYPORTFOLIO
     children:
       - title: "Final-Project"
         url: /docs/quick-start-guide/
@@ -37,7 +37,7 @@ docs:
       - title: "SpringFramework"
         url: /docs/navigation/
         
-   - title: CODING-TEST
+   - title: CODINGTEST
     children:
       - title: "PYTHON"
           url: /docs/navigation/
