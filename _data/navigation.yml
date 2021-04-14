@@ -13,7 +13,7 @@ main:
     url: https://google.com
   
 docs:
-  - title: MY PORTFOLIO
+  - title: MY-PORTFOLIO
     children:
       - title: "Final-Project"
         url: /docs/quick-start-guide/
