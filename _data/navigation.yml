@@ -10,9 +10,9 @@ main:
     url: https://google.com
   
 docs:
-  - title: Getting Started
+  - title: My Portfolio
     children:
-      - title: "Quick-Start Guide"
+      - title: "Java-Project"
         url: /docs/quick-start-guide/
       - title: "Structure"
         url: /docs/structure/
