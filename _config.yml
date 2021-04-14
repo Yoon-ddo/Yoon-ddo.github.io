@@ -95,7 +95,7 @@ analytics:
 # Site Author
 author:
   name             : "Yoon-ddo"
-  avatar           : # path of avatar image, e.g. "/assets/images/computer.png"
+  avatar           : "/assets/images/avatar.png"
   bio              : "윤또의 **개발공작실**"
   location         : "South Korea"
   email            :
