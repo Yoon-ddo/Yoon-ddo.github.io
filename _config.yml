@@ -282,7 +282,7 @@ defaults:
   # _posts
   - scope:
       path: ""
-      type: docs
+      type: posts
     values:
       show_date: true
       layout: single
