@@ -2,18 +2,15 @@
 main:
   - title: "Categories"
     url: https://naver.com
-    
   - title: "Tags"
     url: /year-archive/
-    
   - title: "Posts"
     url: /_posts/
-
   - title: "External Link"
     url: https://google.com
   
 docs:
-  - title: MYPORTFOLIO
+  - title: Portfolio
     children:
       - title: "Final Project"
         url: /docs/quick-start-guide/
@@ -24,7 +21,7 @@ docs:
       - title: "Etc"
         url: /docs/upgrading/
 
-  - title: STUDY
+  - title: Study
     children:
       - title: "Java"
         url: /docs/configuration/
@@ -37,7 +34,7 @@ docs:
       - title: "Spring Framework"
         url: /docs/navigation/
         
-   - title: CODINGTEST
+   - title: Codingtest
     children:
       - title: "Python"
           url: /docs/navigation/
