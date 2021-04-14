@@ -15,7 +15,7 @@
 minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "en-US"
+locale                   : "ko-KR"
 title                    : "Ddo-veloper"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
@@ -102,7 +102,7 @@ author:
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      url: "mailto:yunsy1228@gmail.com"
     - label: "Naver Blog"
       icon: "fas fa-fw fa-link"
       url: "https://blog.naver.com/y__nso"
