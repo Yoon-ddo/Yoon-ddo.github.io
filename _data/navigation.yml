@@ -5,7 +5,7 @@ main:
   - title: "Tags"
     url: /year-archive/
   - title: "Posts"
-    url: /_posts/
+    url: https://naver.com
   - title: "External Link"
     url: https://google.com
   
