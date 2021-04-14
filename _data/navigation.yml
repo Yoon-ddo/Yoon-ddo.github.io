@@ -12,7 +12,7 @@ main:
 docs:
   - title: Getting Started
     children:
-      - title: "Categories"
+      - title: "Quick-Start Guide"
         url: /docs/quick-start-guide/
       - title: "Structure"
         url: /docs/structure/
