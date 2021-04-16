@@ -47,10 +47,5 @@ docs:
       - title: "Utility Classes"
         url: /docs/utility-classes/
 
-  - title: Extras
-    children:
-      - title: "Stylesheets"
-        url: /docs/stylesheets/
-      - title: "JavaScript"
-        url: /docs/javascript/
+  
 
