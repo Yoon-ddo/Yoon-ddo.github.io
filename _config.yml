@@ -285,7 +285,7 @@ defaults:
       type: posts
     values:
       show_date: true
-      layout: wide
+      layout: single
       author_profile: true
       read_time: true
       comments: # true
