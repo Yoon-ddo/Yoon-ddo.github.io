@@ -12,13 +12,13 @@ main:
 docs:
   - title: My Portfolio
     children:
-      - title: "Java-Project"
+      - title: "Final-Project"
         url: /docs/quick-start-guide/
-      - title: "Structure"
+      - title: "Data-Analysis-Project"
         url: /docs/structure/
-      - title: "Installation"
+      - title: "Java-Project"
         url: /docs/installation/
-      - title: "Upgrading"
+      - title: "DataBase-Project"
         url: /docs/upgrading/
 
   - title: Customization
@@ -46,6 +46,12 @@ docs:
         url: /docs/helpers/
       - title: "Utility Classes"
         url: /docs/utility-classes/
+  - title: Extras
+   children:
+     - title: "Stylesheets"
+       url: /docs/stylesheets/
+     - title: "JavaScript"
+       url: /docs/javascript/
 
   
 
