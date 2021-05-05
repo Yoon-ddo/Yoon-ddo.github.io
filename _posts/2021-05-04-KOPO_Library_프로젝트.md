@@ -7,6 +7,6 @@ tags:
 ---
 ## KOPO_Library_프로젝트
 ---
-![Project 개요](./2021_05_05_imgs/2021_05_05.png)
+![Project 개요](./20210505_imgs/2021_05_05.png)
 ---
 ### 영상
