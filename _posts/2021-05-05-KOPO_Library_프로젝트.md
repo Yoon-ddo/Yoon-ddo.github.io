@@ -11,4 +11,4 @@ tags:
 ![Project개요](/assets/imgss/2021_05_05.png)
 ---
 ### 시연영상
-{% include youtube.html id="lMkdZDPfg0Y" %}
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/lMkdZDPfg0Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
