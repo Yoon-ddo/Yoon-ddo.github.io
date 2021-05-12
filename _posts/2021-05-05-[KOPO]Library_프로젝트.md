@@ -1,5 +1,5 @@
 ---
-title: KOPO_Library_프로젝트
+title: [KOPO]Library_프로젝트
 categories:
   - Project
 tags:
