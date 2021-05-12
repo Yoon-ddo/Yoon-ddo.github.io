@@ -1,11 +1,11 @@
 ---
-title: [KOPO]Library_프로젝트
+title: (KOPO)Library_프로젝트
 categories:
   - Project
 tags:
   - Java_Project
 ---
-## [KOPO]Library_프로젝트
+## (KOPO)Library_프로젝트
 
 
 
