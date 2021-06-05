@@ -1,7 +1,7 @@
 # main links
 main:
   - title: "Categories"
-    url: https://naver.com
+    url: /cateories/
   - title: "Tags"
     url: /year-archive/
   - title: "Posts"
