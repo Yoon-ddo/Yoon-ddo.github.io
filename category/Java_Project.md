@@ -2,6 +2,6 @@
 
 layout: category
 
-title: Java_Project
+title: Project
 
 ---
