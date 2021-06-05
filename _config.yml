@@ -293,3 +293,5 @@ defaults:
       related: true
       sidebar:
         nav: "docs"
+        
+category_list: [ Project ]
