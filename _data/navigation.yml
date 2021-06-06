@@ -3,7 +3,7 @@ main:
   - title: "Categories"
     url: /cateories/
   - title: "Tags"
-    url: /year-archive/
+    url: /tags/
   - title: "Posts"
     url: https://naver.com
   - title: "External Link"
