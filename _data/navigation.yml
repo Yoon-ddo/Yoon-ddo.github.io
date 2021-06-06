@@ -1,13 +1,13 @@
 # main links
 main:
-  - title: "Categories"
-    url: /cateories/
+  #- title: "Categories"
+  #  url: /cateories/
   - title: "Tags"
     url: /tags/
   - title: "Posts"
-    url: https://naver.com
-  - title: "External Link"
-    url: https://google.com
+    url: "https://yoon-ddo.github.io/"
+  #- title: "External Link"
+  #  url: https://google.com
   
 docs:
   - title: My Portfolio
