@@ -1,11 +1,11 @@
 # main links
 main:
-  #- title: "Categories"
-  #  url: /cateories/
+  - title: "Home"
+    url: "https://yoon-ddo.github.io/"
   - title: "Tags"
     url: /tags/
   - title: "Posts"
-    url: "https://yoon-ddo.github.io/"
+    url: /year-archive/
   #- title: "External Link"
   #  url: https://google.com
   
@@ -17,7 +17,8 @@ docs:
       - title: "Data-Analysis-Project"
         url: /docs/structure/
       - title: "Java-Project"
-        url: /docs/installation/
+        url: /tags/#java-project/
+        #url: /docs/installation/
       - title: "DataBase-Project"
         url: /docs/upgrading/
 
