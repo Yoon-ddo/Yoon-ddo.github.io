@@ -44,5 +44,11 @@ tags:
 ![Servletdir구조](/assets/imgss/20210618-디렉토리구조.jpg)
 <br><br><br><br>
 
+### Servlet 생명주기
+>>>init : 최초 한번만 실행
+>>>service : **필수** 요청에대한 응답 
+>>>> 안만들면 405에러와 만나게된다 (url은 만들어졌는데 처리할 서비스가 없어 서블릿에러)
+>>>destroy : 메모리 해제시 호출
+
 
 
