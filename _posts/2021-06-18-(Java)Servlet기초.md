@@ -86,9 +86,9 @@ tags:
  
 * 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
 
-##### Servlet태그
+### Servlet태그
 * **servlet-name**은 mapping태그의 servlet-name과 같아야하며, **servlet-class**태그에는 **패키지명과, java파일명**을 입력하면 된다.(확장자명은 입력X)
-##### Servlet-mapping태그
+### Servlet-mapping태그
 *  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 이름을 지정해준다.
 <br><br><br><br>
 
