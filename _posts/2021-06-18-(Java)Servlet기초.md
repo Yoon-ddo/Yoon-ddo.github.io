@@ -23,6 +23,7 @@ tags:
   - 모델 : JAVA(VO,DAO)
   - 뷰 : JSP
   - 컨트롤러 : Servlet
+
 <br><br><br><br>
 
 ### Servlet API
@@ -30,6 +31,7 @@ tags:
 * Generic Servlet : 추상클래스
 * HttpServlet : 추상클래스 **대부분 웹개발시 이를 상속한다**
 * 웹에서 동작하는 서블릿 클래스가 되기위해서는 셋중 하나를 상속받아야한다! **extends/implements**
+
 <br><br><br><br>
 
 
@@ -38,6 +40,7 @@ tags:
   - request방식 : GET/POST
 #### Client <--( Response : 응답 )-- WAS
 * client는 WAS에 요청하고, WAS는 client에 응답한다!
+
 <br><br><br><br>
 
 ### 디렉토리 구조
@@ -68,11 +71,15 @@ tags:
 ```
 
 <br>
+
 * 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
+
 ##### <Servlet>
 * **servlet-name**은 mapping태그의 servlet-name과 같아야하며, servlet-class태그에는 **패키지명과, java파일명**만 입력하면 된다.
+
 ##### <Servlet-mapping>
 *  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, url-pattern은 root경로 다음에 붙을 이름을 지정해준다.
+  
 <br><br><br><br>
 
 ### Servlet 생명주기
@@ -80,6 +87,7 @@ tags:
 * service : **필수** 요청에대한 응답 
   - 안만들면 405에러와 만나게된다 (url은 만들어졌는데 처리할 서비스가 없어 서블릿에러)
 * destroy : 메모리 해제시 호출
+  
 <br><br><br><br><br>
 
 
