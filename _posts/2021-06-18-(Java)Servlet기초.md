@@ -55,7 +55,7 @@ tags:
 
 ### Serlvet 가상 URL 만들기
 
-```Java
+```JAVA
 
 <display-name>Lecture-web</display-name>
 
