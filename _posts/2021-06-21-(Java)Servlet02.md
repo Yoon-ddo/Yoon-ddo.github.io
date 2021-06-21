@@ -14,7 +14,8 @@ tags:
     - POST방식은 body부분의 인자를 해석하기 위해 **반드시**인코딩이 필요하다.
     - service메소드에서 **<span style="color:red">request.setCharacterEncoding("utf-8");</span>** 로 인코딩을 해주어야한다.
 <br>
-  ```Java
+  
+```Java
      @Override
       protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -55,7 +56,7 @@ tags:
         out.close();
       } 
   
-  ```
+```
 <br><br><br>
   
   
