@@ -10,11 +10,11 @@ tags:
 
 ## 내용
 * [1. Servlet이란?](#servlet이란?)
-* [2. Servlet API](#servlet api)
-* [3. Serlvet 프로세스 구조](#serlvet 프로세스 구조)
-* [4. Serlvet 디렉토리 구조](#serlvet 디렉토리 구조)
-* [5. Serlvet 가상 URL 만들기](#serlvet 가상 URL 만들기)
-* [6. Servlet 생명주기](#servlet 생명주기)
+* [2. Servlet API](#servlet-api)
+* [3. Serlvet 프로세스 구조](#serlvet-프로세스-구조)
+* [4. Serlvet 디렉토리 구조](#serlvet-디렉토리-구조)
+* [5. Serlvet 가상 URL 만들기](#serlvet-가상-URL-만들기)
+* [6. Servlet 생명주기](#servlet-생명주기)
 <br><br><br><br>
 ---
 <br><br><br><br>
