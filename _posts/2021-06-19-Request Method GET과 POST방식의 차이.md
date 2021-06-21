@@ -9,7 +9,7 @@ categories:
 tags:
   - Servlet_Study
 ---
-
+<br><br>
 # Request(요청)
 * uri요청 방식에는 2가지가 있다.
    - GET
