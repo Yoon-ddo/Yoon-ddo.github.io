@@ -1,5 +1,5 @@
 ---
-title: (JSP)Request Method GET과 POST방식의 차이
+title: (Servlet) Request Method GET과 POST방식의 차이
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
@@ -7,7 +7,7 @@ toc_label: "Contents of Page"
 categories:
   - Study
 tags:
-  - JSP_Study
+  - Servlet_Study
 ---
 
 # Request(요청)
