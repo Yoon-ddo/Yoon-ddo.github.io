@@ -50,7 +50,7 @@ tags:
 * 그러나 이는 보안폴더이므로 가상의 URL이 필요하다.
 * 이를 **web.xml** 에 설정해주는 것이 바로 가상의 URL을 생성하는 과정!
 <br>
-* 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
+##### 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
 
 
 ```Java
@@ -74,10 +74,10 @@ tags:
 
 * 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
 
-##### <Servlet>
+###### <Servlet>
 * **servlet-name**은 mapping태그의 servlet-name과 같아야하며, **servlet-class**태그에는 **패키지명과, java파일명**을 입력하면 된다.(확장자명은 입력X)
 
-##### <Servlet-mapping>
+###### <Servlet-mapping>
 *  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 "/이름"을 지정해준다.
   
 <br><br><br><br>
