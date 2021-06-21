@@ -34,14 +34,15 @@ tags:
 
 
 ### Serlvet 프로세스 구조
-* **Client ---( Request : 요청 )--> WAS**
+#### Client ---( Request : 요청 )--> WAS
   - request방식 : GET/POST
-* **Client <--( Response : 응답 )-- WAS**
+#### Client <--( Response : 응답 )-- WAS
 * client는 WAS에 요청하고, WAS는 client에 응답한다!
 <br><br><br><br>
 
 ### 디렉토리 구조
 ![Servletdir구조](/assets/imgss/20210618-디렉토리구조.jpg)
+<br><br><br><br>
 
 
 
