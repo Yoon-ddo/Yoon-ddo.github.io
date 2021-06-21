@@ -12,16 +12,7 @@ tags:
 
 <br><br>
 
-# 내용
-* [1. Servlet이란?](#servlet이란?)
-* [2. Servlet API](#servlet-api)
-* [3. Serlvet 프로세스 구조](#serlvet-프로세스-구조)
-* [4. Serlvet 디렉토리 구조](#serlvet-디렉토리-구조)
-* [5. Serlvet 가상 URL 만들기](#serlvet-가상-URL-만들기)
-* [6. Servlet 생명주기](#servlet-생명주기)
 
-
-<br><br><br><br>
 # Servlet이란?
 * Client와 WAS서버에는 통로가 있는데, 이 통로를 통해 html형식의 데이터를 전송하는 기술이다.
 * html을 jsp로 바꾸어도 실행할 수 있도록 해준다.
@@ -51,12 +42,10 @@ tags:
 
 
 # Serlvet 프로세스 구조
-#### Client ---( Request : 요청 )--> WAS
-* request방식 : GET/POST
-
-
-#### Client <--( Response : 응답 )-- WAS
-* client는 WAS에 요청하고, WAS는 client에 응답한다!
+* Client ---( Request : 요청 )--> WAS
+  * request방식 : GET/POST
+* Client <--( Response : 응답 )-- WAS
+  * client는 WAS에 요청하고, WAS는 client에 응답한다!
 
 <br><br><br><br>
 
