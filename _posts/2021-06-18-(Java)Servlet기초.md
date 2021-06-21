@@ -55,6 +55,7 @@ tags:
 <br><br><br><br>
 
 # Serlvet 디렉토리 구조
+*                   Lecture-Web
 ![Servletdir구조](/assets/imgss/20210618-디렉토리구조.jpg)
 <br>
 * 웹서비스를 할때 Java Resources/src/의 .java 파일들은 WEB-INF/classes에 있는 .class파일이 수행된다.
