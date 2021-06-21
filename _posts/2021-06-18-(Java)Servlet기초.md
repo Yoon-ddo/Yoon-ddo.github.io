@@ -2,6 +2,7 @@
 title: (Java)Servlet기초
 toc: true
 toc_sticky: true
+toc_label: "Contents of Page"
 
 categories:
   - Study
