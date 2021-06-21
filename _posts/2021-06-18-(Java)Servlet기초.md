@@ -49,6 +49,8 @@ tags:
 # Serlvet 프로세스 구조
 #### Client ---( Request : 요청 )--> WAS
 * request방식 : GET/POST
+
+
 #### Client <--( Response : 응답 )-- WAS
 * client는 WAS에 요청하고, WAS는 client에 응답한다!
 
