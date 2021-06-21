@@ -1,64 +1,47 @@
 ---
-title: (Java)Servlet02
+title: (Java)Servlet기초
 categories:
   - Study
 tags:
   - Java_Study
 ---
 
-#### GET방식과 POST방식
-* html <form>태그에 method로 GET/POST를 설정할 수 있고, 두개에는 차이가 있다.
-  * **GET** : 폼에 입력 후, submit을 누르면 URL뒤에 **<span style="color:blue">?id=aaa</span>**이런식으로 내가 입력한 값이 URI뒤에 붙게된다.
-  * **POST** : 반면 입력한 값이 URI뒤에 붙지 않고, 값이 body에 날라가서 보안성이 우수하다. 그래서 일반적으로 form태그에는 **<span style="color:blue">POST방식</span>**을 사용한다.
-* 그런데 POST방식으로 id를 입력했더니 깨진다(ì¥ì¥)!??
-    - POST방식은 body부분의 인자를 해석하기 위해 **반드시**인코딩이 필요하다.
-    - service메소드에서 **<span style="color:red">request.setCharacterEncoding("utf-8");</span>** 로 인코딩을 해주어야한다.
-<br>
-  
-```Java
-     @Override
-      protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //body부분의 인자를 인코딩하기위해
-        request.setCharacterEncoding("utf-8");
+### Servlet이란?
+* Client와 WAS서버에는 통로가 있는데, 이 통로를 통해 html형식의 데이터를 전송하는 기술이다.
+* html을 jsp로 바꾸어도 실행할 수 있도록 해준다.
+  - ASP보다 JSP가 보안이 더 좋다.
+* 예전에는 Servlet이 불편해서 사용하는 사람이 별로 없었다고 한다.
+* 하지만 웹의 규모가 커지면서 유지보수하기 좋고 수월하게 개발할 수 있게 Servlet + JSP(모델2방식)이 급부상하면서 사용량이 증가했다.
+  - Servlet - 화면을 구성하지 않고 요청을 관리하고 비즈니스 로직을 관리한다.
+  - 모델2방식 : MVC방식을 이용한다.
+* 자바기반의 컴포넌트
+* 변천사
+  - html을 핸들링 하기 어려워서 JSP가 등장했고,
+  - JSP에서 html의 코드가 복잡해 짐에 따라 Java와 html을 분리하였다.
+  - 이때 MVC 패턴을 사용하여 해결
+  - 모델 : JAVA(VO,DAO)
+  - 뷰 : JSP
+  - 컨트롤러 : Servlet
+<br><br><br><br>
+
+### Servlet API
+* Servlet : 인터페이스
+* Generic Servlet : 추상클래스
+* HttpServlet : 추상클래스 **대부분 웹개발시 이를 상속한다**
+* 웹에서 동작하는 서블릿 클래스가 되기위해서는 셋중 하나를 상속받아야한다! **extends/implements**
+<br><br><br><br>
 
 
-        StringBuffer url = request.getRequestURL();
-        String method = request.getMethod();
-        String uri = request.getRequestURI();
-        String id = request.getParameter("id");
-        System.out.println("method : "+method);
-        System.out.println("uri : "+uri);
-        System.out.println("url : "+url);
-        System.out.println("id : " + id);
+### Serlvet 프로세스 구조
+* **Client ---( Request : 요청 )--> WAS**
+  - request방식 : GET/POST
+* **Client <--( Response : 응답 )-- WAS**
+* client는 WAS에 요청하고, WAS는 client에 응답한다!
+<br><br><br><br>
 
-        response.setContentType("text/html; charset=utf-8");
+### 디렉토리 구조
+![Servletdir구조](/assets/imgss/20210618-디렉토리구조.jpg)
 
-        PrintWriter out = response.getWriter();
-        out.println();
-        out.println("<html>");
-        out.println("	<head>");
-        out.println("		<title>메소드 호출 방식 - POST</title>");
-        out.println("	</head>");
-        out.println("	<body>");
-        out.println("=============================================<br>");
-        out.println("<h1>요청결과</h1>");
-        out.println("=============================================<br>");
-        out.println("ID : " + id + "<br>");
-        out.println("요청방식 : " + method + "<br>");
-        out.println("URL : " + url + "<br>");
-        out.println("URI : " + uri + "<br>");
-        out.println("=============================================<br>");
-        out.println("	</body>");
-        out.println("</html>");
 
-        out.flush();
-        out.close();
-      } 
-  
-```
-<br><br><br>
-  
-  
-#### 
-  
+
