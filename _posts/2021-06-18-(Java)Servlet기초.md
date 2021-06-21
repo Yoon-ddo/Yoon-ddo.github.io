@@ -50,6 +50,8 @@ tags:
 * 그러나 이는 보안폴더이므로 가상의 URL이 필요하다.
 * 이를 **web.xml** 에 설정해주는 것이 바로 가상의 URL을 생성하는 과정!
 <br>
+
+
 ##### 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
 
 <br>
