@@ -1,5 +1,5 @@
 ---
-title: (Servlet) Request Method GET과 POST방식의 차이
+title: Request Method GET과 POST방식의 차이
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
