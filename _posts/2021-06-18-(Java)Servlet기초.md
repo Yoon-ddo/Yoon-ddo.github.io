@@ -8,7 +8,7 @@ tags:
 
 <br><br>
 
-## 내용
+# 내용
 * [1. Servlet이란?](#servlet이란?)
 * [2. Servlet API](#servlet-api)
 * [3. Serlvet 프로세스 구조](#serlvet-프로세스-구조)
@@ -18,7 +18,7 @@ tags:
 <br><br><br><br>
 ---
 <br><br><br><br>
-### Servlet이란?
+# Servlet이란?
 * Client와 WAS서버에는 통로가 있는데, 이 통로를 통해 html형식의 데이터를 전송하는 기술이다.
 * html을 jsp로 바꾸어도 실행할 수 있도록 해준다.
   - ASP보다 JSP가 보안이 더 좋다.
@@ -37,7 +37,7 @@ tags:
 
 <br><br><br><br>
 
-### Servlet API
+# Servlet API
 * Servlet : 인터페이스
 * Generic Servlet : 추상클래스
 * HttpServlet : 추상클래스 **대부분 웹개발시 이를 상속한다**
@@ -46,7 +46,7 @@ tags:
 <br><br><br><br>
 
 
-### Serlvet 프로세스 구조
+# Serlvet 프로세스 구조
 #### Client ---( Request : 요청 )--> WAS
   - request방식 : GET/POST
 #### Client <--( Response : 응답 )-- WAS
@@ -54,7 +54,7 @@ tags:
 
 <br><br><br><br>
 
-### Serlvet 디렉토리 구조
+# Serlvet 디렉토리 구조
 ![Servletdir구조](/assets/imgss/20210618-디렉토리구조.jpg)
 <br>
 * 웹서비스를 할때 Java Resources/src/의 .java 파일들은 WEB-INF/classes에 있는 .class파일이 수행된다.
@@ -64,7 +64,7 @@ tags:
 <br><br><br><br>
 
 
-### Serlvet 가상 URL 만들기
+# Serlvet 가상 URL 만들기
 
 ```xml
 
@@ -92,7 +92,7 @@ tags:
 *  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 이름을 지정해준다.
 <br><br><br><br>
 
-### Servlet 생명주기
+# Servlet 생명주기
 * init : 최초 한번만 실행
 * service : **필수** 요청에대한 응답 
   - 안만들면 405에러와 만나게된다 (url은 만들어졌는데 처리할 서비스가 없어 서블릿에러)
