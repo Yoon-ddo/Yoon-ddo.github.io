@@ -52,7 +52,6 @@ tags:
 <br>
 
 ```Java
-
 <display-name>Lecture-web</display-name>
 
   <servlet>
@@ -65,27 +64,28 @@ tags:
 	</servlet-mapping>
   
 <welcome-file-list>
-
 ```
 
 <br>
 
 * 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
 
+<br>
+
 ###### <Servlet>
 * **servlet-name**은 mapping태그의 servlet-name과 같아야하며, **servlet-class**태그에는 **패키지명과, java파일명**을 입력하면 된다.(확장자명은 입력X)
-
+  
+<br>
+  
 ###### <Servlet-mapping>
 *  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 "/이름"을 지정해준다.
-  
 <br><br><br><br>
 
 ### Servlet 생명주기
 * init : 최초 한번만 실행
 * service : **필수** 요청에대한 응답 
   - 안만들면 405에러와 만나게된다 (url은 만들어졌는데 처리할 서비스가 없어 서블릿에러)
-* destroy : 메모리 해제시 호출
-  
+* destroy : 메모리 해제시 호출 
 <br><br><br><br><br>
 
 
