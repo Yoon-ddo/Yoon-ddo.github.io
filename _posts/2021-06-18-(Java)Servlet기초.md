@@ -78,7 +78,7 @@ tags:
 <br>
   
 ###### <Servlet-mapping>
-*  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 "/이름"을 지정해준다.
+*  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 이름을 지정해준다.
 <br><br><br><br>
 
 ### Servlet 생명주기
