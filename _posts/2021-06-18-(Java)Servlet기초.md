@@ -43,12 +43,17 @@ tags:
 
 <br><br><br><br>
 
-### 디렉토리 구조
+### Serlvet 디렉토리 구조
 ![Servletdir구조](/assets/imgss/20210618-디렉토리구조.jpg)
 <br>
 * 웹서비스를 할때 Java Resources/src/의 .java 파일들은 WEB-INF/classes에 있는 .class파일이 수행된다.
 * 그러나 이는 보안폴더이므로 가상의 URL이 필요하다.
 * 이를 **web.xml** 에 설정해주는 것이 바로 가상의 URL을 생성하는 과정!
+
+<br><br><br><br>
+
+
+### Serlvet 가상 URL 만들기
 
 ```Java
 <display-name>Lecture-web</display-name>
@@ -67,12 +72,8 @@ tags:
  
 * 기본적으로 **display-name**태그와 **welcom-file-list**태그 사이에 servlet을 구성한다.
 
-<br>
-
 ###### <Servlet>
 * **servlet-name**은 mapping태그의 servlet-name과 같아야하며, **servlet-class**태그에는 **패키지명과, java파일명**을 입력하면 된다.(확장자명은 입력X)
-  
-<br>
   
 ###### <Servlet-mapping>
 *  **servlet-name**은Servlet태그의 servlet-name과 같아야하며, **url-pattern**은 root경로 다음에 붙을 이름을 지정해준다.
