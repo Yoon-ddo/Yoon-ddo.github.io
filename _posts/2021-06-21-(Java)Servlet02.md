@@ -60,5 +60,5 @@ tags:
 <br><br><br>
   
   
-#### GET방식과 POST방식  
+#### 
   
