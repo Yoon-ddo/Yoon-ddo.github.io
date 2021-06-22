@@ -23,7 +23,7 @@ tags:
 
 # GET
 * get방식으로 서버에 요청할 경우
-* URL뒤에 **" ?id=aaa&pwd=bbb "** 이런식으로 입력한 내용이 뒤에 붙게 된다.
+* URL뒤에 ** ?id=aaa&pwd=bbb ** 이런식으로 입력한 내용이 뒤에 붙게 된다.
 * 이는 보안에 취약한 방법이기 때문에 대부분의 웹서비스는 get방식을 잘 사용하지 않는다.
 
 <br><br><br><br>
@@ -40,3 +40,6 @@ response.getCharacterEncoding("utf-8");
 ```
 
 * 위의 코드를 service 하는 메소드 부분 처음에 작성해주어야 한글이 깨지지 않는다.
+
+<br><br><br><br>
+  
