@@ -6,6 +6,8 @@ main:
     url: /tags/
   - title: "Posts"
     url: /year-archive/
+  - title: "Category"
+    url: /categories/
   #- title: "External Link"
   #  url: https://google.com
   
