@@ -14,6 +14,8 @@ main:
 docs:
   - title: My Portfolio
     children:
+      - title: "About-Me"
+        url: https://yoon-ddo.github.io/aboutme/YoonSoYoung/
       - title: "Final-Project"
         url: /docs/quick-start-guide/
       - title: "Data-Analysis-Project"
