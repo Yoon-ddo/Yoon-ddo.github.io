@@ -310,6 +310,9 @@ request.setCharacterEncoding("utf-8");
  
  	// 저장할 곳.
  	String saveDirectory = "D:/윤소영/web-workspace/Mission-Web/WebContent/upload";
+  //얘는 개발자가보고있는 저장경로이고, 실제로 deploy할 는 eclipse-work폴더의 서버경로를 작성해야함!!!
+  
+  
  	MultipartRequest multiRequest = new MultipartRequest(request, saveDirectory, 1024*1024*3, "utf-8", new KopoFileNamePolicy());
  	
  	
@@ -365,6 +368,123 @@ request.setCharacterEncoding("utf-8");
 	}
   
 ```
+
+<br><br><br><br>
+
+# 응용2 : 업로드한 파일 조회
+## 1. 저장한 파일 출력할 부분 만들기
+* detail.jsp
+
+~~~html
+
+<%
+   //1. 게시물번호 추출
+	int boardNo = Integer.parseInt(request.getParameter("no"));
+	
+	//2. 데이터베이스에서 조회
+	boardDAO dao = new boardDAO();
+	
+	BoardVO board = dao.selectOne(boardNo);
+	// 2-1. 조회수 증가
+	dao.viewCnt(boardNo, board, 1);
+	// 2-2. 게시물 조회
+	board = dao.selectOne(boardNo);
+	
+	pageContext.setAttribute("board", board);
+	
+	// 2-3. t_board_file테이블에서 게시물의 첨부파일 조회
+	List<BoardFileVO> fileList = dao.selectFileByNo(boardNo);
+%>
+   
+
+  <tr>
+    <th width="25%">첨부파일</th>
+    <td></td>
+  </tr>
+
+~~~
+
+## 2. 첨부한 파일 명단 저장
+* boardDAO.java
+
+```java
+
+  /**
+	 * 첨부한 파일 목록저장
+	 * @param boardNo
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<BoardFileVO> selectFileByNo(int boardNo) throws SQLException{
+		
+		List<BoardFileVO> list = new ArrayList<>();
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select no, file_ori_name, file_save_name, file_size ");
+		sql.append(" from t_board_file ");
+		sql.append(" where board_no = ? ");
+		
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			){
+			
+			pstmt.setInt(1, boardNo);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardFileVO fileVO = new BoardFileVO();
+				
+				fileVO.setNo(rs.getInt("no"));
+				fileVO.setFileOriName(rs.getString("file_ori_name"));
+				fileVO.setFileSaveName(rs.getString("file_save_name"));
+				fileVO.setFileSize(rs.getInt("file_size"));
+				
+				list.add(fileVO);
+				
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+ 
+```
+
+## 3. 공유영역에 올리고, forEach태그로 출력
+* detail.jsp
+
+~~~html
+
+<%
+   //공유영역에 올리기
+   // 2-3. t_board_file테이블에서 게시물의 첨부파일 조회
+	 List<BoardFileVO> fileList = dao.selectFileByNo(boardNo);
+
+   pageContext.setAttribute("board",board);
+	 pageContext.setAttribute("fileList",fileList);
+%>
+
+<tr>
+    <th width="25%">첨부파일</th>
+    <td>
+      <c:forEach items="${ fileList }" var="file">
+      <a href="/Mission-Web/upload/${ file.fileSaveName }">
+        <c:out value="${ file.fileOriName }" />
+        <span style="color:lightgray">(${ file.fileSize } bytes)</span><br>
+      </a>
+      </c:forEach>
+
+    </td>
+</tr>
+
+
+~~~
+
+* a태그 href의 경로는 서버의 경로(eclipse-work폴더)를 작성해주어야 한다!!!!!
 
 
 
