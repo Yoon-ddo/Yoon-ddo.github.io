@@ -19,9 +19,9 @@ tags:
 |:---:|---|:---:|:---:|
 | 2020.02 ~ 2020.02 | 소셜데이터를 활용한<br>음식 트랜드 분석 | 금상 | [ppt](https://drive.google.com/file/d/1TEVn6Pkuz4fggpctEIlzCXFxXGOHr3OZ/view?usp=sharing) |
 | 2020.04 ~ 2020.07 | Kakao Arena 공모전<br>Melon Playlist Continuation | 47등<br>(785팀) | [ppt](https://drive.google.com/file/d/1I87OgbYh7G-BU0-Mq2SwqL6xYWb8OC_T/view?usp=sharing) |
-| 2020.06 ~ 2020.06 | 보험사 데이터를 이용한 보험사기자 찾기 프로젝트 | - | - |
-| 2020.07 ~ 2020.08 | 비정형데이터를 이용한<br>스타트업 투자예측 | 최우수상 | - |
-| 2020.08 ~ 2020.09 | BIG CONTEST Innovation 분야<br>코로나 시대의 언택트 소통 클래스<br>Kids Social Connector | 상위 3%<br>본선진출 | - |
+| 2020.06 ~ 2020.06 | 보험사 데이터를 이용한 보험사기자 찾기 프로젝트 | - | [ppt](https://drive.google.com/file/d/1qu1vMrhqa-4YEvxG8CzWcbiu7i-GWfsK/view?usp=sharing) |
+| 2020.07 ~ 2020.08 | 비정형데이터를 이용한<br>스타트업 투자예측 | 최우수상 | [ppt](https://drive.google.com/file/d/12WP2joZ01BSsQ5mTxnI1QgcjNpC0ySI3/view?usp=sharing)<br>[발표영상](https://youtu.be/fWgNljDLyxQ) |
+| 2020.08 ~ 2020.09 | BIG CONTEST Innovation 분야<br>코로나 시대의 언택트 소통 클래스<br>Kids Social Connector | 상위 3%<br>본선진출 | [ppt](https://drive.google.com/file/d/10qhIhG13L9pWxKrExeipfNKfCbu2_k_w/view?usp=sharing) |
 
 <br>
 
@@ -35,6 +35,8 @@ tags:
 
 # InternShip
 * **2020.09 ~ 2020.12** : 서초구청 AI  영상처리 개발지원 ( 나무플래닛, 계약직 )
+  - [ppt](https://drive.google.com/file/d/19pPQPI8KHEUWm1RRZ61zQvpjUv0c8vcX/view?usp=sharing)
+  - [mov](https://youtu.be/Y-fL-ft-4-o)
 
 <br><br><br><br>
 
