@@ -86,7 +86,7 @@ tags:
 
 <br><br><br><br>
 
-# 게시물에 파일 업로드하기.
+# 응용 : 게시물에 파일 업로드하기.
 ## 1. 파일업로드 폼 생성
 * writeForm.jsp
 * enctype="multipart/form-data"
@@ -169,7 +169,7 @@ create table t_board_file(
 );
 
 -- 시퀀스 생성
-create sequence t_board_file_no nocache;
+create sequence seq_t_board_file_no nocache;
 
 ```
 
@@ -186,6 +186,184 @@ create sequence t_board_file_no nocache;
 	private String fileSaveName;
 	private int fileSize;
 
+```
+
+## 5. 첨부파일 저장
+* write.jsp
+
+```java
+
+<%
+  // Enumeration 타입
+  Enumeration files = multiRequest.getFileNames(); //첨부한 파일 이름들.
+    while(files.hasMoreElements()){
+      String fileName = (String)files.nextElement();
+
+      File f = multiRequest.getFile(fileName);
+
+      // 첨부파일이 1개만 있을수도 있으니! if문
+      if( f != null){
+      
+        //원본파일 이름 얻기
+        String fileOriName = multiRequest.getOriginalFileName(fileName);
+        
+        //변형된 파일이름 얻기
+        String fileSaveName = multiRequest.getFilesystemName(fileName);
+        //System.out.println(fileOriName + " : " +fileSaveName);
+        
+        //파일사이즈 얻기 : 파일사이즈는 long형이다.
+			  int fileSize = (int)f.length();
+        
+        // VO에 값 넣기
+        BoardFileVO fileVO = new BoardFileVO();
+        fileVO.setFileOriName(fileOriName);
+        fileVO.setFileSaveName(fileSaveName);
+        fileVO.setFileSize(fileSize);
+        
+        
+      }
+	}
+%>
+
+```
+
+* 게시물을 저장하기 위한 시퀀스번호 추출해서 t_board, t_board_file DB에 넣어주어야함.
+  - boardDAO.java 
+
+```java
+
+  /**
+	 * t_board sequence추출
+	 * @return
+	 * @throws SQLException
+	 */
+	public int selectNo() throws SQLException  {
+		
+		int num = 0;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select seq_to_board_no.nextval from dual ");
+		
+		try(
+				Connection conn = new ConnectionFactory().getConnection();
+	 		 	PreparedStatement pstmt = conn.prepareStatement(sql.toString());	
+			){
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				num = rs.getInt(1);
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return num;
+	}
+
+```
+
+## 6. 파일정보 DB에 저장
+* boardDAO.java
+
+```java
+
+  /**
+	 * 업로드하는 파일정보
+	 * @param fileVO
+	 * @throws SQLException
+	 */
+	public void insertFile(BoardFileVO fileVO) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into t_board_file(no, board_no, file_ori_name, file_save_name, file_size) ");
+		sql.append(" values(seq_t_board_file_no.nextval, ?, ?, ?, ?) ");
+		
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+ 		 	PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			){
+			
+			int loc = 1;
+			pstmt.setInt(loc++, fileVO.getBoardNo());
+			pstmt.setString(loc++, fileVO.getFileOriName());
+			pstmt.setString(loc++, fileVO.getFileSaveName());
+			pstmt.setInt(loc++, fileVO.getFileSize());
+			
+			pstmt.executeUpdate();
+			
+			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+```
+
+## 7. 최종 write.jsp코드
+
+```java
+
+request.setCharacterEncoding("utf-8");
+ 
+ 	// 저장할 곳.
+ 	String saveDirectory = "D:/윤소영/web-workspace/Mission-Web/WebContent/upload";
+ 	MultipartRequest multiRequest = new MultipartRequest(request, saveDirectory, 1024*1024*3, "utf-8", new KopoFileNamePolicy());
+ 	
+ 	
+ 	//1. t_board 게시글저장
+ 	String title = multiRequest.getParameter("title");
+ 	String writer = multiRequest.getParameter("writer");
+ 	String content = multiRequest.getParameter("content");
+ 	
+ 	//게시물 번호 추출
+ 	boardDAO dao = new boardDAO();
+ 	int boardNo = dao.selectNo();
+ 	
+ 	BoardVO board = new BoardVO();
+ 	board.setTitle(title);
+ 	board.setWriter(writer);
+ 	board.setContent(content);
+ 	board.setNo(boardNo);
+ 	
+ 	
+	dao.insert(board);	
+
+	
+	//2. t_board_file에 첨부파일 저장
+	Enumeration files = multiRequest.getFileNames();
+	while(files.hasMoreElements()){
+		String fileName = (String)files.nextElement();
+		
+		File f = multiRequest.getFile(fileName);
+		
+		// 첨부파일이 1개만 있을수도 있으니! if문
+		if( f != null){			
+			//원본파일 이름 얻기
+			String fileOriName = multiRequest.getOriginalFileName(fileName);
+			//변형된 파일이름 얻기
+			String fileSaveName = multiRequest.getFilesystemName(fileName);
+			//System.out.println(fileOriName + " : " +fileSaveName);
+			
+			//파일사이즈 얻기
+			int fileSize = (int)f.length();
+			
+			// VO에 값 넣기
+			BoardFileVO fileVO = new BoardFileVO();
+			fileVO.setFileOriName(fileOriName);
+			fileVO.setFileSaveName(fileSaveName);
+			fileVO.setFileSize(fileSize);
+			
+			//게시물을 저장하기 위한 시퀀스번호 추출해서 t_board, t_board_file DB에 넣어주어야함.
+			fileVO.setBoardNo(boardNo);
+			
+			dao.insertFile(fileVO);
+			
+		}
+	}
+  
 ```
 
 
