@@ -404,6 +404,8 @@ request.setCharacterEncoding("utf-8");
 
 ~~~
 
+<br>
+
 ## 2. 첨부한 파일 명단 저장
 * boardDAO.java
 
@@ -454,18 +456,23 @@ request.setCharacterEncoding("utf-8");
  
 ```
 
+<br>
+
 ## 3. 공유영역에 올리고, forEach태그로 출력
 * detail.jsp
 
 ~~~html
 
 <%
+   
    //공유영역에 올리기
    // 2-3. t_board_file테이블에서 게시물의 첨부파일 조회
-	 List<BoardFileVO> fileList = dao.selectFileByNo(boardNo);
+   List<BoardFileVO> fileList = dao.selectFileByNo(boardNo);
 
    pageContext.setAttribute("board",board);
-	 pageContext.setAttribute("fileList",fileList);
+   pageContext.setAttribute("fileList",fileList);
+
+
 %>
 
 <tr>
@@ -486,6 +493,7 @@ request.setCharacterEncoding("utf-8");
 
 * a태그 href의 경로는 서버의 경로(eclipse-work폴더)를 작성해주어야 한다!!!!!
 
+<br><br><br><br>
 
 
 
