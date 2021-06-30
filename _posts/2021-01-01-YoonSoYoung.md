@@ -18,9 +18,9 @@ tags:
 | Date | Project | Score | PPT |
 |:---:|---|:---:|---|
 | 2020.02 ~ 2020.02 | 소셜데이터를 활용한 음식 트랜드 분석: 아시아경제 프로젝트 | 금상 | - |
-| 2020.04 ~ 2020.07 | Kakao Arena 공모전 : Melon Playlist Continuation | 47등(785팀) | - |
+| 2020.04 ~ 2020.07 | Kakao Arena 공모전 : Melon Playlist Continuation | 47등<br>(785팀) | - |
 | 2020.07 ~ 2020.08 | 비정형데이터를 이용한 스타트업 투자예측 | 최우수상 | - |
-| 2020.08 ~ 2020.09 | BIG CONTEST 공모전 : Innovation 분야 | 상위 3% 본선진출 | - |
+| 2020.08 ~ 2020.09 | BIG CONTEST 공모전 : Innovation 분야 | 상위 3%<br>본선진출 | - |
 
 <br>
 
