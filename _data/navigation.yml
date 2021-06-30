@@ -8,8 +8,8 @@ main:
     url: /year-archive/
   - title: "Category"
     url: /categories/
-  #- title: "External Link"
-  #  url: https://google.com
+  - title: "AboutMe"
+    url: https://yoon-ddo.github.io/aboutme/YoonSoYoung/
   
 docs:
   - title: My Portfolio
