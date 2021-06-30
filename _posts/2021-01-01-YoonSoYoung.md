@@ -63,7 +63,7 @@ tags:
 <br><br><br><br>
 
 # Major
-* **2020.01 ~** : Data Analysis
+* **2020.01 ~ 2021** : Data Analysis
 * **2017.03 ~ 2020.02** : Industrial Design
 * **2014.03 ~ 2017.02** : Craft Design  
 
