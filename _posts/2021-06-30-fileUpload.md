@@ -54,7 +54,9 @@ tags:
 
 * id=&uploadfile=cat.jpg 로 출력
   - 실제 파일이 아닌 파일명만 전송됨.
-* 해결방법 : form태그에는 **enctype**속성이 있음
+
+
+### 해결방법1 : form태그에는 **enctype**속성이 있음
 
 ~~~html
 
@@ -66,5 +68,19 @@ tags:
 	</form>
 
 ~~~
+
+* 이렇게 전송된 정보는
+* ------WebKitFormBoundary3twEt1nFA8B1dwP4<br>Content-Disposition: form-data; name="uploadfile"; filename="cat.jpg"<br>Content-Type: image/jpeg
+* 의 정보가 출력된 후 한줄 띄우고 파일이 출력된다. 
+* 하지만 내가 알던 사진파일이 아니네?!
+
+### 해결방법2
+1. servlets.com 접속
+2. 왼쪽메뉴에 **COS File Upload Library** 클릭
+3. Download에서 **cos-20.08.zip** 다운로드
+4. 압축 풀고 lib/**cos.jar** 파일을 자바 프로젝트 WEB-INF/lib 폴더안에 넣는다.
+
+* 예시 : multipartRequest.getParameter("title");
+
 
 
