@@ -1,15 +1,15 @@
 # main links
 main:
-  - title: "Home"
-    url: "https://yoon-ddo.github.io/"
+  #- title: "Home"
+  #  url: "https://yoon-ddo.github.io/"
+  - title: "AboutMe"
+    url: https://yoon-ddo.github.io/aboutme/YoonSoYoung/
   - title: "Tags"
     url: /tags/
   - title: "Posts"
     url: /year-archive/
   - title: "Category"
     url: /categories/
-  - title: "AboutMe"
-    url: https://yoon-ddo.github.io/aboutme/YoonSoYoung/
   
 docs:
   - title: My Portfolio
