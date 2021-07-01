@@ -234,7 +234,7 @@ COMMIT;
   * 암시적( 자동 )
   * 블록 내에서 트랜젝션을 제어하지 못하고 exception을 수행하지 못했을 때 자동으로 rollback처리
   * 블록 BEGIN ~ END; 를 한문장이라고 생각하면 쉽다.
-- Transaction levle Rollback
+- Transaction level Rollback
   * 명시적( 수동 )
 
 <br><br><br>
