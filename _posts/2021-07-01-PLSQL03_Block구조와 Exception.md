@@ -12,7 +12,7 @@ tags:
 
 <br><br>
 
-# Block 구조와Exception
+# Block 구조와 Exception
 
 ## 1. Nested Block
 - 중첩된 블록, 블록안에 또 다른 블록이 내포된 구조
