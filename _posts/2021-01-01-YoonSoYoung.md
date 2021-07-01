@@ -36,7 +36,7 @@ tags:
 <br><br><br><br>
 
 # InternShip
-* `2020.09 ~ 2020.12` : 서초구청 AI  영상처리 개발지원 
+* `<span style="color:rgb(0,140,140);">2020.09 ~ 2020.12</span>` : 서초구청 AI  영상처리 개발지원 
   + ( 나무플래닛, 계약직 )
   + [ppt](https://drive.google.com/file/d/19pPQPI8KHEUWm1RRZ61zQvpjUv0c8vcX/view?usp=sharing)
 
