@@ -221,13 +221,21 @@ COMMIT;
   * Update 연산이 총 10개의 Row를 수정해야하는데 8번째에서 에러가 발생하면 1~8Row 까지 수정되었던 사항을 Rollback 처리를한다.
   * 해당 Statement내에 변경된 사항을 Rollback 하는 것이 Statement Level Rollback 이다.
 
-
 - 예외처리부에서 EXCEPTION을 처리할 수 있는 경우
   * EXCEPTION을 처리한 후, 해당 BLOCK을 종료한 후 BLOCK의 다음 Statement 실행
 - 예외처리부에서 EXCEPTION을 처리할 수 없는 경우
   * 예외처리부가 없는 경우
   * 예외처리부가 있지만 해당 EXCEPTION을 제어하지 못하는 경우
   * 해당 블록을 종료한 후, EXCEPTION을 외부에 전달.(Exception Propagation)
+
+
+#### 3-2-1. Rollback
+- Statement level Rollback
+  * 암시적( 자동 )
+  * 블록 내에서 트랜젝션을 제어하지 못하고 exception을 수행하지 못했을 때 자동으로 rollback처리
+  * 블록 BEGIN ~ END; 를 한문장이라고 생각하면 쉽다.
+- Transaction levle Rollback
+  * 명시적( 수동 )
 
 <br><br><br>
 
