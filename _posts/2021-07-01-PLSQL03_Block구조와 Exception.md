@@ -109,6 +109,8 @@ BEGIN
 END;
 /
 
+--ROLLBACK시  INSERT INTO DEPT VALUES(V_DEPTNO, V_DNAME, V_LOC); 취소됨
+
 SELECT * FROM DEPT;
 DELETE FROM DEPT WHERE DEPTNO IN (66,77,88,99);
 COMMIT;
@@ -123,8 +125,99 @@ COMMIT;
     | 88 | GLOBAL_PART | Nested_Blk1 |
     | 99 | GLOBAL_PART | Nested_Blk2 |
     
-<br>
-
+<br><br><br>
 
 ## 3. Exception 정의
+* 컴파일 시점 에러
+* 실행시점 에러
+* PLSQL 블록은 컴파일 -> 실행 순으로 처리
+
+### 3-1. 컴파일 시점 에러
+
+```sql
+SET SERVEROUTPUT ON
+INSERT INTO DEPT VALUES(66,'OUTER_BLK_PART', 'Outlander');
+
+DECLARE
+  V_DNAME   VARCHAR2(14);
+  --V_DEPTNO  NUMBER(200); --최대가 38이라서 200은 에러남. NUMBER 정도 제약은 (1 .. 38)범위이어야 합니다
+  V_DEPTNO  NUMBER(2);
+  V_LOC     VARCHAR2(13);
+
+BEGIN 
+  V_DEPTNO :=77;
+  V_DNAME  :='GLOBAL_PART';
+  V_LOC    :='Main_Blk';
+  
+  <<Nested_BLOCK_1>>
+  DECLARE
+    V_DNAME   VARCHAR2(14);
+    V_DEPTNO  NUMBER(2);
+  BEGIN
+    V_DEPTNO  :=88;
+    V_DNAME   :='LOCAL_PART_1';
+    V_LOC     :='Nested_Blk1';
+    
+    INSERT INTO DEPT VALUES(V_DEPTNO, V_DNAME, V_LOC);
+    COMMIT;
+  END Nested_BLOCK_1;
+  
+  <<Nested_BLOCK_2>>
+  DECLARE
+    V_DNAME   VARCHAR2(14);
+    V_DEPTNO  NUMBER(2);
+  BEGIN
+    V_DEPTNO  :=99;
+    V_DNAME   :='LOCAL_PART_2';
+    V_LOC     :='Nested_Blk2';
+    
+    INSERT INTO DEPT VALUES(V_DEPTNO, V_DNAME, V_LOC);
+    COMMIT;
+  END Nested_BLOCK_2;
+  
+  INSERT INTO DEPT VALUES(V_DEPTNO, V_DNAME, V_LOC);
+END;
+/
+
+SELECT * FROM DEPT WHERE DEPTNO IN (66,77,88,99);
+DELETE FROM DEPT WHERE DEPTNO IN (66,77,88,99);
+COMMIT;  
+```
+
+### 3-2. 실행시점 에러
+
+```sql
+BEGIN
+  INSERT INTO DEPT VALUES(66,'OUTER_BLK_PART', 'MAIN_BLK');
+  
+  <<Nested_BLOCK_1>>
+  BEGIN
+    INSERT INTO DEPT VALUES(76,'LOCAL_PART_1', 'Nested_Blk1');
+    -- INSERT INTO DEPT VALUES(777,'LOCAL_PART_1', 'Nested_Blk1'); -- runtime err발생.
+    -- NUMBER(2)라서 3자리는 '이 열에 대해 지정된 전체 자릿수보다 큰 값이 허용됩니다.' 에러 발생
+    INSERT INTO DEPT VALUES(77,'LOCAL_PART_1', 'Nested_Blk1'); 
+    INSERT INTO DEPT VALUES(78,'LOCAL_PART_1', 'Nested_Blk1');
+    COMMIT;
+   END Nested_BLOCK_1;
+   
+  <<Nested_BLOCK_2>>
+  BEGIN
+    INSERT INTO DEPT VALUES(88,'LOCAL_PART_2', 'Nested_Blk2');
+    COMMIT;
+  END Nested_BLOCK_2;
+  INSERT INTO DEPT VALUES(99,'OUTER_BLK_PART', 'MAIN_BLK');
+END;
+/
+
+SELECT * FROM DEPT WHERE DEPTNO IN (66,76,77,78,88,99);
+DELETE FROM DEPT WHERE DEPTNO IN (66,76,77,78,88,99);
+COMMIT;  
+```
+
+- Nested_BLOCK_1의 INSERT INTO DEPT VALUES(777,'LOCAL_PART_1', 'Nested_Blk1'); 구문 에러
+  * 해당 구문은 NUMBER(2)라서 3자리는 '이 열에 대해 지정된 전체 자릿수보다 큰 값이 허용됩니다.' 에러 발생한다.
+  * 블록안에서 에러 발생시 해당 블록의 예외처리 부분으로 넘어가는데 위의 코드는 EXCEPTION부분이 없다.
+  * 그래서 바깥 블록의 예외처리 부분으로 넘어가게 되는데 바깥에도 없어서 에러가 발생되기 때문에 모든 블록은 실행되지 않게 된다.
+
+
 ## 4. Exception 발생 및 처리
