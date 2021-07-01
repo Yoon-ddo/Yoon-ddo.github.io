@@ -218,6 +218,17 @@ COMMIT;
   * 해당 구문은 NUMBER(2)라서 3자리는 '이 열에 대해 지정된 전체 자릿수보다 큰 값이 허용됩니다.' 에러 발생한다.
   * 블록안에서 에러 발생시 해당 블록의 예외처리 부분으로 넘어가는데 위의 코드는 EXCEPTION부분이 없다.
   * 그래서 바깥 블록의 예외처리 부분으로 넘어가게 되는데 바깥에도 없어서 에러가 발생되기 때문에 모든 블록은 실행되지 않게 된다.
+  * Update 연산이 총 10개의 Row를 수정해야하는데 8번째에서 에러가 발생하면 1~8Row 까지 수정되었던 사항을 Rollback 처리를한다.
+  * 해당 Statement내에 변경된 사항을 Rollback 하는 것이 Statement Level Rollback 이다.
 
+
+- 예외처리부에서 EXCEPTION을 처리할 수 있는 경우
+  * EXCEPTION을 처리한 후, 해당 BLOCK을 종료한 후 BLOCK의 다음 Statement 실행
+- 예외처리부에서 EXCEPTION을 처리할 수 없는 경우
+  * 예외처리부가 없는 경우
+  * 예외처리부가 있지만 해당 EXCEPTION을 제어하지 못하는 경우
+  * 해당 블록을 종료한 후, EXCEPTION을 외부에 전달.(Exception Propagation)
+
+<br><br><br>
 
 ## 4. Exception 발생 및 처리
