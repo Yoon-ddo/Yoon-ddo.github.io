@@ -14,7 +14,11 @@ tags:
 
 # CURSOR
 ## 1. 개념
-- 
+- 사용자(User)가 SQL을 전송하면 Oracle DBMS는 해당 SQL을 실행하기 위한 메모리 공간이 필요하다.
+  * Rows
+  * Shared Pool에 저장된 Parsed Query에 대한 포인터
+- Context Area : 할당된 영역, Cursor는 해당 영역을 가르키는 포인터나 해당 영역을 제어하기 위한 핸들러의 의미로 사용됨
+
 
 <br><br><br><br>
 
