@@ -171,6 +171,100 @@ ERR MSG => ORA-01403: 데이터를 찾을 수 없습니다.
 <br><br><br>
 
 ## 4. 참조연산
+### 4-1. %TYPE
+- `EMP.EMPNO%TYPE` : 특정 테이블, 컬럼의 데이터 타입과 LENGTH를 참조하여 변수 정의
+- 장점
+  * 편리성
+  * 유연성 : 데이터 길이를 변경할 때 코드를 안적어도 된다.  
+
+### 4-2. %ROWTYPE
+- TABLE, VIEW, CURSOR의 여러 COLUMN을 참조하여 RECORD TYPE생성.
+- `REC_EMP EMP%ROWTYPE` : EMP 테이블내의 모든 컬럼을 %TYPE으로 참조한 후, 내부적으로 RECORD로 정의됨.
+
+```sql
+DECLARE
+    REC_EMP     EMP%ROWTYPE;
+    V_EMPNO     EMP.EMPNO%TYPE;
+BEGIN
+    --1개의 ROW를 SELECT해서 RECORD에 저장.
+    SELECT * INTO REC_EMP FROM EMP WHERE EMPNO = 7369;
+    -- INTO 구문 필수
+    
+    DBMS_OUTPUT.PUT_LINE('EMPNO         => '||REC_EMP.EMPNO);
+    DBMS_OUTPUT.PUT_LINE('ENAME         => '||REC_EMP.ENAME);
+    DBMS_OUTPUT.PUT_LINE('JOB           => '||REC_EMP.JOB);
+    DBMS_OUTPUT.PUT_LINE('MGR           => '||REC_EMP.MGR);
+    DBMS_OUTPUT.PUT_LINE('HIREDATE      => '||REC_EMP.HIREDATE);
+    DBMS_OUTPUT.PUT_LINE('SAL           => '||REC_EMP.SAL);
+    
+    --RECORD의 각각 FIELD를 독립적으로 사용가능
+    SELECT EMPNO, ENAME INTO V_EMPNO, REC_EMP.ENAME
+    FROM EMP
+    WHERE EMPNO = 7369;
+    
+    DBMS_OUTPUT.PUT_LINE('---------------------------------');
+    DBMS_OUTPUT.PUT_LINE('EMPNO         => '||V_EMPNO);
+    DBMS_OUTPUT.PUT_LINE('ENAME         => '||REC_EMP.ENAME);
+END;
+/
+```
+
+<br><br><br>
+
 ## 5. Block내의 Select
+### 5-1. 데이터가 없는 경우
+
+```sql
+ECLARE
+    V_EMPNO     EMP.EMPNO%TYPE;
+    V_ENAME     EMP.ENAME%TYPE;
+    V_HIREDATE  EMP.HIREDATE%TYPE;
+BEGIN
+    -- SELECT 되는 대상 데이터가 없는 조회
+    SELECT EMPNO, ENAME, HIREDATE INTO V_EMPNO, V_ENAME, V_HIREDATE
+    FROM EMP
+    WHERE EMPNO = 1;
+    DBMS_OUTPUT.PUT_LINE('SELECTED EXACTLY ONE ROW '||V_EMPNO);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('NO DATA FOUND!');
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('TOO MANU ROWS FOUND!');
+END;
+/
+```
+
+- EMPNO=1인 데이터는 존재하지 않는다.
+- EXCEPTION구문에서 NO_DATA_FOUND 예외가 발생하여 해당 예외처리 수행
+- `NO DATA FOUND!`
+  * PL/SQL블록 내에서 SELECT한 데이터를 기반으로 다른 연산을 수행한다.
+  * SELECT한 것이 없어서 후속 연산을 수행할 수 없어 ERROR로 간주하여 예외를 처리할 수 있도록 한 것이다. 
+
+### 5-2. 데이터가 여러개인 경우
+
+```sql
+DECLARE
+    V_EMPNO     EMP.EMPNO%TYPE;
+    V_ENAME     EMP.ENAME%TYPE;
+    V_HIREDATE  EMP.HIREDATE%TYPE;
+BEGIN
+    -- SELECT 되는 대상 데이터가 없는 조회
+    SELECT EMPNO, ENAME, HIREDATE INTO V_EMPNO, V_ENAME, V_HIREDATE
+    FROM EMP
+    WHERE EMPNO >= 1;
+    DBMS_OUTPUT.PUT_LINE('SELECTED EXACTLY ONE ROW '||V_EMPNO);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('NO DATA FOUND!');
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('TOO MANU ROWS FOUND!');
+END;
+/
+```
+
+- EMPNO >= 1에 해당하는 데이터가 여러개이다.
+- `SELECT EMPNO, ENAME, HIREDATE INTO V_EMPNO, V_ENAME, V_HIREDATE`에 데이터가 1개씩 들어가므로, TOO_MANY_ROWS 예외처리를 수행한다.
+  * 스칼라 변수에 복수개의 값이 저장될 수 없다.
+  * RUN TIME ERROR시 발생하는 에러 
 
 <br><br><br><br>
