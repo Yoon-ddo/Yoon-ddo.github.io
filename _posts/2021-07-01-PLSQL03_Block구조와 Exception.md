@@ -282,6 +282,8 @@ END;
     + 기능적으로는 아무런 역할을 하지 않아도 되지만 문법적으로 명령 Statement가 필요한 경우 사용
   * `NO_DATA_FOUND` : Fetch된 Row가 없음을 의미. 얘만 있으면 Exception처리 못하고 PLSQL 전체가 실행X
 
+<br>
+
 > 만약 Block1에서 에러처리 안되고 블록 밖(MainBlk)에서 처리한다면?
-  >> main블록에 WHEN OTHERS THEN NULL;이 있다고 가정했을 때, 88,99데이터는 들어가지 않는다.
-  >> 1블록에서 에러 발생시 블록 밖으로 던져서 메인블록의 EXCEPTION이 처리하기 때문에 BLOCK2와 main블록의 insert는 실행하지 않게됨.
+- main블록에 WHEN OTHERS THEN NULL;이 있다고 가정했을 때, 88,99데이터는 들어가지 않는다.
+- 1블록에서 에러 발생시 블록 밖으로 던져서 메인블록의 EXCEPTION이 처리하기 때문에 BLOCK2와 main블록의 insert는 실행하지 않게됨.
