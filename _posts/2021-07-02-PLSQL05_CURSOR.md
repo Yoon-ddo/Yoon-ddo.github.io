@@ -16,6 +16,8 @@ tags:
 ## 1. 개념
 - 
 
+<br><br><br><br>
+
 ## 2. 종류
 ### 2-1. 암시적 커서
 - 자동적
@@ -84,6 +86,8 @@ END;
 | %NOTFOUND | FOUND의 반대값 | FOUND의 반대값 |
 | %ISOPEN | 항상 FALSE | CURSORDML Open상태 확인 |
 
+### 3-1. 예제1
+
 ```sql
 BEGIN
     DELETE FROM EMP WHERE SAL > 2000;
@@ -121,3 +125,57 @@ SQL%NOTFOUND = FALSE
 PL/SQL 프로시저가 성공적으로 완료되었습니다.
 ```
 
+### 3-2. 예제2 : 커서 간단하게 정의하기
+
+- 1단계
+
+```sql
+DECLARE
+    CURSOR CUR_EMP IS
+        SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10;
+    R_CUR_EMP   CUR_EMP%ROWTYPE; -- 전체를 한 변수에 담아서 선언하기도 가능.
+    
+BEGIN
+    OPEN CUR_EMP;
+    LOOP
+        FETCH CUR_EMP INTO R_CUR_EMP;
+        
+        EXIT WHEN CUR_EMP%NOTFOUND;
+        
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM)
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows precessed');
+    CLOSE   CUR_EMP;
+    COMMIT;
+END;
+/
+```
+
+<br>
+
+- 2단계
+  * FOR LOOP에서는 OPEN, FETCH, CLOSE의 과정이 자동으로 이루어짐.
+  * DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows precessed');를 주석해제하면 안돌아간다!
+    + 이유 : FOR문에서 커서가 자동으로 닫혔기 때문에 CUR_EMP%ROWCOUNT는 실행되지 않는다.
+
+```sql
+DECLARE
+    CURSOR CUR_EMP IS
+        SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10;
+    
+BEGIN
+    FOR R_CUR_EMP IN CUR_EMP
+    LOOP
+        
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM)
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+    END LOOP;
+    --DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows precessed');
+    -- FOR문에서 커서가 자동으로 닫혔기 때문에 CUR_EMP%ROWCOUNT는 실행되지 않는다.
+    COMMIT;
+END;
+/
+```
+
+<br><br><br><br>
