@@ -160,7 +160,7 @@ END;
 
 - 2단계
   * FOR LOOP에서는 OPEN, FETCH, CLOSE의 과정이 자동으로 이루어짐.
-  * DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows precessed');를 주석해제하면 안돌아간다!
+  * `DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows precessed')`를 주석해제하면 안돌아간다!
     + 이유 : FOR문에서 커서가 자동으로 닫혔기 때문에 CUR_EMP%ROWCOUNT는 실행되지 않는다.
 
 ```sql
