@@ -71,7 +71,7 @@ SELECT NAME, LINE, TEXT FROM USER_SOURCE WHERE NAME='CALC_BONUS';
 - TEXT SOURCE상태로 배포시 내부 기술 유출될 수 있음.
 
 ```sql
-WRAP IN function.sql
+WRAP INAME=function.sql
 ```
 
 - 자동으로 .plb형태의 파일로 출력됨. 
@@ -81,6 +81,16 @@ WRAP IN function.sql
 - TEXT SOURCE는 원본 소스 손상시 데이터 딕셔너리에 저장되어 있어 언제든 추출 가능
 - 상용화되는 특정 앱에만 한정적으로 사용한다.
 - 일반 응용 앱에 사용시 유지보수할 때 문제 초래.
+
+- **WRAP 순서**
+  1. sql 스크립트 파일 생성
+    + Putty, VMWare에서 SQLPLUS실행
+    + edit 파일명.sql 입력하여 sql스크립트 생성
+    + 함수 등 입력후 esc누르고 wq로 저장하여 작성모드 탈출
+  2. SQLPlus상태에서 host 입력하여 SQLPlus 탈출
+  3. 파일이 위치한 경로로 이동 후, `WRAP INAME=파일명.sql` 입력하면 파일명.plb 파일이 생성된다.(ls명령어로 확인가능)
+  4. exit 입력하여 다시 SQLPlus 모드로 돌아온 후
+  5. @파일명.plb 입력하여 함수 실행하여 사용.
 
 
 <br><br><br><br>
