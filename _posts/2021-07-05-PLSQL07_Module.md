@@ -108,7 +108,7 @@ DROP TRIGGER TRG_EMP_UPD_SAL;
 
 <br><br>
 
-### 3-2. PROCEDURE 예외처리 구문 추가
+### 3-2. PROCEDURE 예외처리 구문 추가하고 PRINT
 - 상황 : EXECUTE CHANGE_SALARY(7369, 1234567); 실행시
 - ORA-01438: 이 열에 대해 지정된 전체 자릿수보다 큰 값이 허용됩니다.
 - 에러 발생
@@ -138,6 +138,10 @@ END CHANGE_SALARY;
 ```
 
 - EXCEPTION 구문 추가하여 다시 실행하여 에러메시지를 PRINT할 수 있다.
+
+<br><br>
+
+### 3-3. PROCEDURE 예외처리 구문 추가하고 로그저장
 
 <br><br><br><br>
 
