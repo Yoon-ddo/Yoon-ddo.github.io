@@ -15,4 +15,4 @@ tags:
 # PACKAGE
 ## 1. PACKAGE 만들기
 
-# TRIGER
+# TRIGGER
