@@ -35,9 +35,10 @@ END P_EMPLOYEE;
 
 
 
-### 1-1. HEADER만들기
+### 1-2. BODY만들기
 - BODY영역에서만 정의한 PROCEDURE, FUNCTION, VARIABLE은 `PRIVATE`이다.
 - GV_ROWS는 참조가능하지만, V_ROWS는 에러 발생
+- HEADER에 정의하면 PUBLIC이 된다. BODY에 정의되어있는데 HEADER에 없다면 그것은 PRIVATE!
 
 ```sql
 CREATE OR REPLACE PACKAGE BODY P_EMPLOYEE
