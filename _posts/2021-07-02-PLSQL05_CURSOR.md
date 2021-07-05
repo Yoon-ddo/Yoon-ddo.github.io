@@ -81,6 +81,8 @@ END;
   * `Bulk Binding`을 사용하면 한번에 여러개를 빠르게 Fetch할 수 있다.
   * `Array Processing`, `Bulk Collect`
 
+<br><br><br><br>
+
 ## 3. 커서 속성
 
 | 커서속성자 | IMPLICIT CURSOR | EXPLICIT CURSOR |
@@ -181,5 +183,57 @@ BEGIN
 END;
 /
 ```
+
+- 3단계
+  * 커서의 정의를 DECLARE에서 하지 않고 IN절에서 정의하여 사용했기 때문에 코드가 간결해짐
+  * 커서를 여러개 사용하게되면 선언부에 커서가 많아져서 가독성이 떨어짐.
+  * 재사용되는 커서는 선언을 하는 것이 좋다!
+
+```sql
+BEGIN
+    FOR R_CUR_EMP IN (SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO=10)
+    LOOP
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM)
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+    END LOOP;
+    COMMIT;
+END;
+/
+```
+
+<br><br><br><br>
+
+## 4. 커서 파라미터
+- PL/SQL에서는 `parameter Mode`를 지정해준다.
+  * IN mode : `default` 값을 모듈에 넣어주는 것
+  * OUT mode : 값을 모듈 밖으로 꺼내는 것
+  * IN/OUT mode : 값을 모듈에 넣고, 바꿔서 모듈 밖으로 꺼내는 것
+
+- 커서 프로세스
+  1. `Define`
+    + DECLARE
+  2. `Open`
+    + Bind Variables(변수를 대입)
+    + Execute SQL(ResultSet)
+  3. `Fetch`
+  4. `Close`
+
+```sql
+DECLARE
+    CURSOR CUR_EMP(P_DEPTNO IN NUMBER) IS
+        SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = P_DEPTNO;
+    V_DEPTNO     DEPT.DEPTNO%TYPE;
+BEGIN
+    V_DEPTNO := 20;
+    FOR R_CUR_EMP IN CUR_EMP(V_DEPTNO)
+    LOOP
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM)
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+    END LOOP;
+    COMMIT;
+END;
+/
+```
+
 
 <br><br><br><br>
