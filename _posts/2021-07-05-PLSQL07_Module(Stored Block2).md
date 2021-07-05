@@ -176,7 +176,7 @@ EXECUTE CHANGE_SALARY(7369,1234567);
 <br><br>
 
 ### 3-3. PROCEDURE 예외처리 구문 추가하고 로그저장
-1. 예외처리 로그 저장 테이블 생성
+#### 3-3-1. 예외처리 로그 저장 테이블 생성
 
 ```sql
 CREATE TABLE EXCEPTION_LOG(
@@ -188,7 +188,7 @@ CREATE TABLE EXCEPTION_LOG(
 );
 ```
 
-2. 에러발생시 저장하는 프로시저 생성
+#### 3-3-2. 에러발생시 저장하는 프로시저 생성
 
 ```sql
 CREATE OR REPLACE PROCEDURE CHANGE_SALARY(A_EMPNO IN NUMBER, A_SALARY NUMBER DEFAULT 2000)
