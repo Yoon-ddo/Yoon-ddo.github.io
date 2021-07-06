@@ -91,6 +91,36 @@ END P_EMPLOYEE;
 /
 ```
 
-
+<br><br><br><br>
 
 # TRIGGER
+- 선언적 무결성 제약사항(PK, UK, FK, NN, CHECK)은 정의만 하면 된다. 하지만 단순하다. 
+- TRIGGER는 PL/SQL로 코딩해야하기 때문에 복잡하지만, 복잡한 비즈니스 로직을 구현
+- 이벤트가 발생하면 자동으로 실행.
+
+|| INSERT | DELETE | UPDATE |
+|:---:|:---:|:---:|:---:|
+| :NEW | O | X | O |
+| :OLD | X | O | O |
+
+```sql
+CREATE OR REPLACE TRIGGER TRG_CHANGE_SAL
+BEFORE UPDATE OF SAL ON EMP
+FOR EACH ROW
+BEGIN
+    IF( :NEW.SAL >9000 ) THEN
+        :NEW.SAL := 9000;
+    END IF;
+END;
+/
+-- Trigger TRG_CHANGE_SAL이(가) 컴파일되었습니다.
+
+
+UPDATE EMP SET SAL=9500 WHERE EMPNO IN (7369);
+SELECT * FROM EMP WHERE EMPNO IN (7369);
+```
+
+- EMPNO가 7369인 사원의 SAL값을 9500으로 UPDATE했지만, TRIGGER로 인해 9000이 들어감.
+
+
+<br><br><br><br>
