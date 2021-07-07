@@ -54,7 +54,5 @@ END;
 ```
 
 <br><br><br>
-## 2. Dynamic CURSOR
-## 3. AUTONOMOUS TRANSACTION
-## 4. BULK COLLECT & FORALL
+
 
