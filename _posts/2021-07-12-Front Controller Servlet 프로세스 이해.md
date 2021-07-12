@@ -141,6 +141,7 @@ public HandlerMapping() {
 		Map<String, Controller> mappings = new HashMap<>();
 		mappings.put("/board/list.do", new BoardListController());
 		mappings.put("/board/writeForm.do",new WriteFormController());
+    // uri가 들어오면 Controller실행 (FrontController.java에 구현 : Controller control = mappings.getController(uri); )
 	}
   ```
  
@@ -170,14 +171,18 @@ public class FrontControllerServlet extends HttpServlet{
 		
 		String context = request.getContextPath();
 		
-		String uri = request.getRequestURI();
+		String uri = request.getRequestURI(); // 요청 URI분석
 		uri = uri.substring(context.length());
 		
 		try {
+    
 			Controller control = mappings.getController(uri);
 			
 			if(control != null) {
+      
 				String callPage = control.handleRequest(request, response);
+        
+        // forward , callPage : forward시킬 주소.
 				RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
 				dispatcher.forward(request, response);			
 				
@@ -215,6 +220,7 @@ public class FrontControllerServlet extends HttpServlet{
 4. Controller 반환
 5. Controller는 DB에 데이터 주고받고
 6. request영역에 등록
+  - 요청은 servlet이 받았고, 응답은 jsp가 하기때문에 모두가 참조할 수 있게 request영역에 올려야함
 7. jsp주소를 Controller에서 FCS로 전달
 8. FCS->JSP로 forward
 9. JSP는 request공유영역을 보고 원하는 정보 구성
