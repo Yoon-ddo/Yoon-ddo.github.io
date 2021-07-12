@@ -134,7 +134,7 @@ days: 35
 - Java : mavenCentral, jcenter
 
 ## 4-2. Maven Repository
-1. ![Maven Repository](https://mvnrepository.com/)
+1. [Maven Repository](https://mvnrepository.com/)
 2. `JSON In Java` 검색 후 20160810 버전 클릭
 3. Gradle 누르고 복사
 4. IJ에서 `build.gradle`파일에 `dependencies` 안에 제일 마지막줄에 복붙할것
