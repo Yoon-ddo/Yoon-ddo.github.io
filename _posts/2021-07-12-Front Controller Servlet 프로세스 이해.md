@@ -214,15 +214,17 @@ public class FrontControllerServlet extends HttpServlet{
 
 <br>
 
-1. Client 요청
-2. FrontControllerServlet에 요청
-3. HM에 uri전달
-4. Controller 반환
-5. Controller는 DB에 데이터 주고받고
-6. request영역에 등록
+1. Client -> FrontControllerSerlvet : 요청
+2. FrontControllerServlet -> HandlerMapping : URI 전달
+3. HandlerMapping -> FrontControllerServlet : 어떤 Controller를 사용할지 전달.
+4. FrontControllerServlet -> Controller : Controller(인터페이스)를 상속받은 세부 컨트롤러 호출
+5. (상속받은 세부)Controller -> DB : DB에 값을 요청
+6. DB -> Controller : DB에서 값을 받아옴
+7. Controller -> request 영역 : DB에서 받은 값을 request영역에 등록
   - 요청은 servlet이 받았고, 응답은 jsp가 하기때문에 모두가 참조할 수 있게 request영역에 올려야함
-7. jsp주소를 Controller에서 FCS로 전달
-8. FCS->JSP로 forward
-9. JSP는 request공유영역을 보고 원하는 정보 구성
-10. Client에 응답 
+8. Controller -> FrontControllerServlet : jsp주소를 Controller에서 FCS로 전달
+9. FrontControllerServlet -> JSP로 : forward(DispatchRequest)
+10. JSP는 request공유영역을 보고 원하는 정보 구성
+11. Client에 응답
+
 
