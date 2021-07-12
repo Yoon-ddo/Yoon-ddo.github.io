@@ -194,8 +194,7 @@ public class PersonController {
 ```
 
 ### 5-1-3. 결과
-
-![result](/assets/imgss/20210712-SpartaCoding01.jpg)
+![result](/assets/imgss/20210712-SpartaCoding01.JPG)
 
 <br>
 
