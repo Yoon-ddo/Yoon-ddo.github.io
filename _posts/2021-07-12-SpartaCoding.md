@@ -148,3 +148,61 @@ implementation group: 'org.json', name: 'json', version: '20160810'
 
 # 5. 과제
 ## 5-1. Person.java와 PersonController.java 만들어서 localhost:8080/myinfo에 내 정보가 뜨도록 만들기.
+### 5-1-1. Person.java
+
+```java
+public class Person {
+
+    private String name;
+    private int age;
+    private String address;
+    private String job;
+
+    public String getName(){ return this.name; }
+    public int getAge(){ return this.age; }
+    public String getAddress(){ return this.address; }
+    public String getJob(){ return this.job; }
+
+    public void setName(String name){ this.name = name; }
+    public void setAge(int age){ this.age = age; }
+    public void setAddress(String address){ this.address = address; }
+    public void setJob(String job){ this.job = job; }
+
+}
+```
+
+
+### 5-1-2. PersonController.java
+
+```java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PersonController {
+
+    @GetMapping("/myinfo")
+    public Person getPerson(){
+        Person person = new Person();
+        person.setName("나야나");
+        person.setAge(200);
+        person.setAddress("대한민국");
+        person.setJob("개발개발");
+        return person;
+    }
+}
+```
+
+### 5-1-3. 결과
+
+![result](/assets/imgss/20210712-SpartaCoding01.jpg)
+
+<br>
+
+#### 만약 이미 8080포트가 사용중일 경우?
+- `cmd`창을 연다.
+- `netstat -ano` 명령어 입력 
+- `0.0.0.0:8080` 의 `PID`를 확인
+- `taskkill /f /pid xxxxx` 입력하면 프로세스가 종료된다.
+
+<br><br><br><br>
