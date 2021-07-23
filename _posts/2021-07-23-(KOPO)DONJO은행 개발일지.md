@@ -107,3 +107,109 @@ EXEC TRANSACTION('35390201147037','D',7000,'33333333333338','D');
 ## 1. 상황
 * Java Controller에서 request.setAttribute("transInfo", transInfo) 해준 데이터를
 * 전혀 불러들이지 못하는 문제발생
+
+## 2. 원인
+* 내가 ajax를 잘못이해하고 있었다.
+* 계좌이체화면.jsp 에서 이미 가지고있는 본인 계좌를 불러오려면 바로 불러오는게 아니라 새로운 화면이 필요하다
+* 계좌이체화면(전).jsp와 이를 부르는 controller가 필요하고 이것을 beans.properties에 등록해놔야함.
+  - /accountTransferBefore.do=		kr.ac.donjo.account.controller.AccountTransferBeforeController 
+
+## 3. 해결코드
+* AccountTransferBeforeController.java
+
+```java
+package kr.ac.donjo.account.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
+import kr.ac.donjo.account.dao.AccountInqueryDAO;
+import kr.ac.donjo.account.vo.AccountVO;
+import kr.ac.donjo.controller.Controller;
+import kr.ac.donjo.login.vo.LoginVO;
+
+public class AccountTransferBeforeController implements Controller {
+
+	@Override
+	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  
+		AccountInqueryDAO dao = new AccountInqueryDAO();
+		HttpSession session = request.getSession();
+		LoginVO uservo = (LoginVO)session.getAttribute("userVO");
+    // ID로 보유한 계좌 불러오는 부분.
+		List<AccountVO> userAcc = dao.showAllAcc(uservo.getId());
+
+
+		Gson gson = new Gson();// GSON사용하려면 jar파일 먼저 lib에 저장할것
+		String transInfo = gson.toJson(userAcc);
+		//System.out.println(transInfo);
+		
+		request.setAttribute("transInfo", transInfo);
+		
+		
+		return "/jsp/account/account_transferbefore.jsp";
+	}
+
+}
+```
+
+* account_transferbefore.jsp
+  - 아래처럼 찍어보면 json배열 값이 나옴.   
+
+~~~html
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+
+${ transInfo }
+
+  
+~~~
+
+* account_transfer.jsp (계좌이체하는 페이지)
+
+```javascript
+/**
+	selection에 따라 값 변경
+
+ */
+
+$(document).ready(function(){
+	
+
+	
+	$('select[name$=myBank]').change(function(){
+		
+		//입력받은 은행
+		let bank = $('select[name$=myBank]').val()
+		
+		
+		$.ajax({
+			type : 'post',
+			url  : '/Donjo-Web/accountTransferBefore.do',
+		//	contentType : "application/json; charset=utf-8",
+		//	dataType : 'json',
+
+			success : callback,
+			error : function(){
+				alert('실패')
+			}
+		})
+	})
+})
+
+function callback(data){
+	//var userAcc = $(transInfo);
+	console.log(data) // 웹 콘솔창에 찍어보면 json배열이 나옴.
+}
+```
+
+* AJAX때문에 눈물 찔끔 날뻔했다..ㅠㅜ 열심히 공부해야지
+
+
