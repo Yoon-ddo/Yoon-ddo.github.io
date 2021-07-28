@@ -26,6 +26,8 @@ tags:
 
 * 스프링 컨테이너 : 만들어진 객체 보관소.
 
+<br>
+
 ### 1-2. DI
 * Dependency Injection : 의존주입 ( 외부에서 만들어진 객체를 가져와서 주입 )
 * 내가 직접 `new`해서 사용X
@@ -35,6 +37,8 @@ tags:
   - Constructor Injection (생성자를 통해 받아오는 방법)
 * 의존 : 객체간 의존관계 의미 
 
+<br>
+
 ### 1-3. Container
 * Spring에서 Container기능을 제공해주는 클래스를 의미
 * Container : Bean 클래스를 관리 (생성, 삭제)하는 주체
@@ -43,14 +47,22 @@ tags:
 * 종류
   - BeanFactory
   - ApplicationContext
-* Bean
-  - Spring Framework에 의해 생명주기가 관리되는 클래스
-  - 일반 POJO기반의 클래스
-  - XML에 <bean>태그 이용하여 등록
-  - 속성 (보통 id, class사용)
-    + id : bean클래스 식별하기 위한 이름설정(숫자가 우선할 수 없고 `/`와 같은 특수기호 사용 불가)
-    + name
-    + class : 사용하려는 bean클래서의 패키지명을 포함한 클래스명
+
+#### 1-3-1. Bean
+* Spring Framework에 의해 생명주기가 관리되는 클래스
+* 일반 POJO기반의 클래스
+* XML에 <bean>태그 이용하여 등록
+* 속성 (보통 id, class사용)
+  - id : bean클래스 식별하기 위한 이름설정(숫자가 우선할 수 없고 `/`와 같은 특수기호 사용 불가)
+  - name
+  - class : 사용하려는 bean클래서의 패키지명을 포함한 클래스명
+* Bean불러오기
+  - 절대경로, 프로젝트 경로					
+    + new FileSystemXmlApplicationContext("src/main/resources/beanContainer.xml");
+	- src/main/resource기분					
+		+ new ClassPathXmlApplicationContext("beanContainer.xml");
+	- 둘다사용가능
+	  + new GenericXmlApplicationContext("beanContainer.xml");
 
 <br><br><br><br>
   
