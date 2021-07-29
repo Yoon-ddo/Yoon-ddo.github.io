@@ -136,6 +136,32 @@ tags:
 * beans에 xmlns:context경로도 적어주어야함.
 * 또는 context태그 이용
 
+```xml
+<context xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/context
+                      http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <beans:bean></bean>
+  <annotation-config />
+  
+</context>
+```
+
+## 2-0. 어노테이션 종류와 차이
+* Autowired
+   - Type매칭 후 name매칭
+* Resource
+  - name매칭 후 Type매칭
+* Inject
+  - Type매칭 후 name매칭
+* Resource와 Inject는 순수 자바 어노테이션
+
+<br><br>
+
 ## 2-1. Autowired
 * Java설정
   - 변수설정 ( 멤버변수에도 설정가능 ) : 알아서 멤버변수에 주입
@@ -219,9 +245,11 @@ public class DriverMain {
 * id가 Car클래스의 멤버변수와 이름이 같다면 같은게 주입됨.
   - 그러나 해당 Tire가 상속관계가 아니라면 id이름에 상관없이 상속받는 Tire가 들어감 
 
+<br><br>
 
 ## 2-2. Resource
 * Jar파일 필요 : `pom.xml파일` dependencies안에 아래 태그 복붙
+* Resource는 이름매칭먼저함
 
 ```xml
 <!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
@@ -235,3 +263,33 @@ public class DriverMain {
 * Java설정
   - 변수
   - Set메소드 
+
+* 생성자에는 붙일 수 없다.
+
+<br><br><br>
+
+## 2-3. Component-scan
+* xml파일 설정을 통해 자동으로 빈으로 사용될 객체를 등록.
+* 지정된 패키지 하위의 모든 패키지를 스캔하여 빈으로 등록
+* 빈으로 등록되려면 자바 클래스에서 어노테이션을 사용해야함
+* @Component(나머지를 포괄적으로 담고있음)
+* @Controller(ds에서 날아오는 요청 처리)
+* @Service(DB에서 받아온 데이터 처리 비즈니스 로직)
+* @Repository(DB 접근)
+
+```xml
+<context:component-scan base-package="kr.co.mlec" />
+```
+
+* 설정값이 없는 경우 클래스 이름의 첫자를 소문자로 적용한 빈으로 등록
+
+```java
+// Class 이름이 ColaDrink일때
+
+@Component //<bean class="xxx.ColaDrink" id="colaDrink" />
+@Component("ham") //<bean class="xxx.ColaDrink" id="ham" />
+```
+
+
+
+
