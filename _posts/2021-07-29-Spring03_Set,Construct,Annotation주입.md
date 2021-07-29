@@ -32,6 +32,9 @@ tags:
 ## 1-1. Setter주입
 * set메소드를 이용한 주입
 * `property` 태그에 name, ref 속성 사용.
+  - name : set메소드의 이름 (setId()라면 name="id"이다)
+  - ref : 설정할 bean id
+  - value : 값 설정 
 
 ### 1-1-1. collection도 쓸 수 있음.(List, Map, Set)
 * List , Set
@@ -65,6 +68,33 @@ tags:
       </map>
   </property>
 </bean>
+```
+
+### 1-1-2. 예제
+* di.xml01.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	
+	<bean class="di.xml01.Car" id="car"/>
+	<bean class="di.xml01.HankookTire" id="tire"/>
+	
+	
+	<bean class="di.xml01.HankookTire" id="hankook"/>
+	<bean class="di.xml01.KumhoTire" id="kumho"/>
+	
+	
+	<bean class="di.xml01.Car" id="car2">
+		<!-- name : setter주입하려는 대상 (setTire의 tire임) -->
+		<property name="tire" ref="kumho"/>
+<!-- 		<property name="tire" ref="hankook"/> -->
+	</bean>
+</beans>
 ```
 
 <br><br>
@@ -106,6 +136,39 @@ tags:
 		<constructor-arg ref="kumho" index="0"/>
 		<constructor-arg value="hello" index="1"/>
 	</bean>
+</beans>
+```
+
+### 1-2-1. 예제
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean class="di.xml02.HankookTire" id="hankook" />
+	<bean class="di.xml02.KumhoTire" id="kumho" />
+	<bean class="di.xml02.Car" id="car">
+		<!--  생성자 주입을 하겠다는 의미  -->
+		<constructor-arg ref="hankook" />
+	</bean>
+	
+	<bean class="di.xml02.Car" id="car2">
+		<!-- new Car(new HankookTire(), new KumhoTire()) -->
+		<constructor-arg ref="hankook"/>
+		<constructor-arg ref="kumho"/>
+	</bean>
+	
+	<bean class="di.xml02.Car" id="car3">
+		<!-- new Car(Tire, String)  
+		- ref : 이미만들어진 객체삽입, value : 상수값 삽입 
+		  바꿔써도 알아서 타입매칭해주지만 위험한 방법이다. 
+		  index 속성으로 순서를 제어할수도 있다.-->
+		<constructor-arg ref="kumho" index="0"/>
+		<constructor-arg value="hello" index="1"/>
+	</bean>	
 </beans>
 ```
 
@@ -159,17 +222,22 @@ tags:
 * Inject
   - Type매칭 후 name매칭
 * Resource와 Inject는 순수 자바 어노테이션
-
+* Autowired와 Resource
+  - 둘다 타입, 이름 , @Qualifier를 사용
+  - Autowired는 required를 사용해서 필수여부 지정.
+    + (required=false) : 의존주입하려는 객체가 없다면 Null로 비워두기
+  
 <br><br>
 
 ## 2-1. Autowired
-* Java설정
+* xml설정 : `<context:annotaion-config />`
+*  Java설정
   - 변수설정 ( 멤버변수에도 설정가능 ) : 알아서 멤버변수에 주입
   - 생성자설정 : 생성자 호출되면서 자동으로 tire 주입
   - set메서드 설정 : 반드시 기본생성자를 가지고 있어야함!
-* 자동주입 객체 찾을 때 Type매칭이 우선임.
+* 자동주입 객체 찾을 때 `Type`매칭이 우선임.
 
-### 2-1-1. Tire객체가 하나일때
+### 2-1-1. 예제1 : Tire객체가 하나일때
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -249,7 +317,7 @@ public class DriverMain {
 
 ## 2-2. Resource
 * Jar파일 필요 : `pom.xml파일` dependencies안에 아래 태그 복붙
-* Resource는 이름매칭먼저함
+* Resource는 이름(id)매칭먼저함
 
 ```xml
 <!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
@@ -265,6 +333,27 @@ public class DriverMain {
   - Set메소드 
 
 * 생성자에는 붙일 수 없다.
+* 적용순서
+  1. name속성에 지정한 bean객체 찾기 (있으면 주입)
+  2. name속성이 없을 경우 동일한 type의 bean객체를 찾는다.
+  3. name속성이 없고, 동일한 type을 갖는 bean객체가 2개 이상일 경우 같은 이름을 가진 bean객체를 찾는다.
+  4. name속성이 없고, 동일한 type을 갖는 bean객체가 2개 이상이고, 같은 이름을 가진 bean객체가 없는 경우 @Qualifier를 이용해서 주입할 bean객체를 찾는다.
+
+### 2-2-1. 예제
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:annotation-config />
+	<bean class="di.anno02.HankookTire" id="hankook" />
+	<!-- <bean class="di.anno02.KumhoTire" id="tire" /> -->
+	<bean class="di.anno02.NexenTire" id="tire" />
+	<bean class="di.anno02.Car" id="car"/>
+</beans>
+```
 
 <br><br><br>
 
@@ -324,6 +413,69 @@ public class Config {
 }
 ```
 
+* Car.java
+
+```java
+package di.java;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+
+
+@Component
+public class Car {
+	
+	@Autowired
+	@Qualifier("kumho")
+	private Tire tire;
+
+	public Car() {
+		System.out.println("Car()...");
+	}
+
+	public Car(Tire tire) {
+		this.tire = tire;
+		System.out.println("Car(tire)...");
+	}
+	
+	public void setTire(Tire tire) {
+		this.tire = tire;
+		System.out.println("setTire()...");
+	}
+	
+	public void prnTireBrand() {
+		System.out.println("장착된 타이어 : " + tire.getBrand() );
+	}
+
+}
+```
+
+* DriverMain.java
+  - Config에 정의된 Bean객체를 불러옴 
+
+```java
+package di.java;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class DriverMain {
+
+	public static void main(String[] args) {
+		
+		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+		
+		Car car = context.getBean("car", Car.class);
+		car.prnTireBrand();
+
+	}
+
+}
+```
+
+<br><br><br><br>
 
 
 
