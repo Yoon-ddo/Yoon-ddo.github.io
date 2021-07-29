@@ -290,6 +290,40 @@ public class DriverMain {
 @Component("ham") //<bean class="xxx.ColaDrink" id="ham" />
 ```
 
+<br><br>
+
+## 2-4. xml등록하는것 Java로 만들기
+* Config클래스 만들기
+  - @Configuration
+  - @Bean : 반드시 붙여주어야 만들어짐
+
+```java
+package di.java;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class Config {
+	
+	
+	@Bean
+	public Car car() {
+		return new Car();
+	}
+	
+	@Bean
+	public HankookTire hankookTire() {
+		return new HankookTire();
+	}
+	
+	//@Bean // 반드시 붙여주어야 만들어짐
+	public KumhoTire kumhoTire() {
+		return new KumhoTire();
+	}
+}
+```
+
 
 
 
