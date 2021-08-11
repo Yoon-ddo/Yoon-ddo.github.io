@@ -1,5 +1,5 @@
 ---
-title: Spring06_복습
+title: Spring06_복습(DI와 AOP)
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
@@ -742,6 +742,89 @@ public class PerformanceAspect{
   <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 </aop:config>
 ```
+
+<br><br><br>
+
+## 2-3. Annotation을 이용한 AOP
+### 2-3-1. AOP 라이브러리 의존성 추가.
+* pom.xml에 dependency추가
+
+```xml
+  <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjweaver</artifactId>
+	    <version>1.9.7</version>
+	   <!--  <scope>runtime</scope> -->
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	    <version>1.9.7</version>
+	    <!-- <scope>runtime</scope> -->
+	</dependency>
+```
+
+<br>
+
+### 2-3-2. AOP Annotation 사용 설정
+* spring xml 설정파일에 `<aop:aspectj-autoproxy>`태그 추가
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframwork.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+                      http://www.springframwork.org/schema/context http://www.springframwork.org/schema/context/spring-context-4.3.xsd
+                      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+  
+  <context:component-scan base-package-"kr.ac.kopo" />
+  <aop:aspectj-autoproxy/>
+  
+</beans>
+```
+
+<br>
+
+### 2-3-3. AOP Annotation
+#### 01. @Aspect
+* 공통코드를 정의한 클래스 
+* 공통코드 객체가 bean 으로 등록되어야 하므로 `@Component`와 함께 사용.
+* `<context:component-scan base-package-"kr.ac.kopo" />` 태그가 추가되어 있어야 Component에 의해 bean으로 등록될 수 있음
+
+
+#### 02. @Pointcut
+* Aspect 클래스 내에 아무 기능도 구현하지 않은 메소드를 추가하고 그 위에 `@Pointcut`을 이용하여 포인트컷 표현식 작성.
+* 공통코드가 실행되어야할 핵심코드 지정
+
+```java
+@Pointcut(value="execution(* kr.ac.kopo..*.sayHello(..))")
+private void helloPointcut() { }
+```
+
+#### 03. 어드바이스
+##### @Before
+* 핵심코드 실행 전에 공통코드 실행
+
+##### @After
+* 핵심코드 실행 후 (return 값이 없을 경우 또는 finally 블록 실행 후) 공통코드 실행
+* 예외가 발생해도 실행됨.
+
+
+##### @AfterReturning
+* 핵심코드 메소드가 리턴한 다음 공통코드 실행
+
+##### @AfterThrowing
+* 핵심코드에서 예외 발생시 공통코드 실행
+
+##### @Around
+* 핵심코드가 실행되는 동안 공통코드 실행
+
+
+
 
 
 
