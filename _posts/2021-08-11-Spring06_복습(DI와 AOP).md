@@ -320,13 +320,13 @@ System.out.println(person1 == person2);
 
 #### 01. Bean 설정
 * Class명 위에 붙인다.
-1. @Component
+* @Component
   - 일반적인 컴포넌트로 등록되기 위한 클래스에 사용.
-2. @Controller
+* @Controller
   - 컨트롤러 클래스에 사용
-3. @Service
+* @Service
   - 서비스 클래스에 사용
-4. @Repository
+* @Repository
   - DAO클래스 또는 Repository클래스에 사용
 
 <br><br>
@@ -373,7 +373,6 @@ IHelloService helloService;
 * @Autowired를 사용하는 것과 같다.
 * 같은 타입의 bean이 두개 이상 있을 경우 변수의 이름과 같은 이름을 갖는 bean을 찾는다.
 * 존재하지 않을 경우 에러발생 : BeanCreationException, NoSuchBeanDefinitionException)
-* 
 
 ```java
 @Inject
@@ -385,7 +384,7 @@ IHelloService helloService;
 ### 1-2-3. Xml과 Annotation 비교
 #### 01. Bean생성
 * XML
-  - `<bean id="bean이름" class="패키지.클래스명"/>
+  - `<bean id="bean이름" class="패키지.클래스명"/>`
 
 * Annotation
   - 설정파일에 `<context:component-scan base-package="패키지명"/>` 추가
