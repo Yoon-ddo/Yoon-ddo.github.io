@@ -175,6 +175,7 @@ public class MyBatisMain {
   - insert
   - update
   - delete
+  - resultMap
 
 * 속성 종류
   - 구문을 구분하는 속성은 `id`속성이다.
@@ -199,6 +200,29 @@ public class MyBatisMain {
   - `mapper1.xml`파일에 `id="selectAll"`이 있고 `mapper2.xml`에도 `id="selectAll"`이 있을수도 있음
   - namespace (package와 같은 역할) 태그를 붙여주면 구분할 수 있음
     + `<mapper namespace="member.dao">` : member.dao의 selectAll이라는 의미
+
+<br>
+
+* VO객체 변수이름과 컬럼명이 다를 때 맞춰주고 싶다면?
+  - `resultMap` 태그
+  - DAO에서 불러올 때는 `List<BoardVO> list = session.selectList("board.BoardDAO.selectAllMap");`로 불러온다.
+
+```xml
+<resultMap type="boardVO" id="boardMap">
+  <result column="view_cnt" property="viewCnt"/>
+  <result column="reg_date" property="regDate"/>
+</resultMap>
+
+<select id="selectAllMap" resultMap="boardMap">
+  <!-- select no, title, writer, content, view_cnt, to_char(reg_date,'yyyy-mm-dd') as reg_date -->
+  select no, title, writer, content, view_cnt , reg_date
+  from t_board
+  order by no desc
+</select>
+```
+
+
+
 <br>
 
 ### board.xml
@@ -247,12 +271,13 @@ public class MyBatisMain {
 </configuration>
 ```
 
-<br>
+<br><br><br>
 
 ## DAO객체
 * SqlSession객체가 있는 곳
 
 ### 1. BoardDAO.java에서 insert 실행
+
 
 ```java
 package kr.ac.kopo.board;
@@ -293,10 +318,13 @@ public class BoardDAO {
 }
 ```
 
+<br><br>
+
 ### 2. BoardDAO.java에서 selectAll 실행
 * board.xml에 추가
   - resultType을 boardVO로 해주었기 때문에 알아서 VO객체로 받아옴.
-  
+  - `session.selectList()`알아서 List형태로 가져옴
+ 
 ```xml
 <select id="selectAll" resultType="boardVO">
   select * 
@@ -323,7 +351,96 @@ public void work() {
 			System.out.println(board);
 		}
 	}
-  ```
+```
+
+<br><br>
+
+### 3. BoardDAO.java에서 selectOne 실행
+* 하나의 데이터( ex. 번호로 조회 )를 가져오기 위해서는 List를 쓸 필요 없음.
+* `session.selectOne();`는 알아서 Object객체로 가져옴
+
+#### 3-1. 파라미터 타입이 VO 일때
+* mapper파일
+  - parameterType이 VO일때는 변수에 맞는 이름을 작성 : `#{no}`
+
+```xml
+<select id="selectOne" resultMap="boardMap" parameterType="boardVO">
+  select no, title, writer, view_cnt, to_char(reg_date,'yyyy-mm-dd') reg_date
+  from t_board
+  where no = #{no}
+</select>
+```
+
+<br>
+
+* DAO
+ 
+```java
+private void selectOne() {
+		BoardVO vo = new BoardVO();
+		vo.setNo(42);
+		BoardVO board = session.selectOne("board.BoardDAO.selectOne", vo);
+		System.out.println(board);
+}
+```
+
+<br><br>
+
+#### 3-2. 파라미터 타입이 int 일때
+* mapper파일
+
+```xml
+<select id="selectOne2" resultMap="boardMap" parameterType="int">
+<!-- int타입일때는 무엇을 쓰든 상관 없음 -->
+  select no, title, writer, view_cnt, to_char(reg_date,'yyyy-mm-dd') reg_date
+  from t_board
+  where no = #{no}
+</select>
+```
+
+<br>
+
+* DAO
+
+```java
+private void selectOne2() {
+		BoardVO board = session.selectOne("board.BoardDAO.selectOne2", 42);
+		System.out.println(board);
+}
+```
+
+<br><br>
+
+#### 3-3. 중복되는 코드 묶기
+* `<sql>`태그와 `<include>`를 이용하여 중복되는 코드를 묶을 수 있다.
+* selectOne과 selectAll에서 중복되는 공통의 쿼리를 묶어주는 역할
+
+```xml
+<sql id="selectBoard">
+  select no, title, writer, view_cnt, to_char(reg_date,'yyyy-mm-dd') reg_date
+  from t_board
+</sql>
+
+
+<select id="selectOne3" resultMap="boardMap" parameterType="int">
+    <include refid="selectBoard"/>
+  where no = #{no}
+</select>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
