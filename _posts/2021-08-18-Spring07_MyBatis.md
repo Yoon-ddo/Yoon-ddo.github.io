@@ -429,7 +429,7 @@ private void selectOne2() {
 
 <br><br><br>
 
-## 동적으로 수행하기
+## 동적으로 수행하기01 where in
 * 제목으로 검색, 작성자로 검색 기능을 구현할 때 sql에서 바뀌는 부분은 where절만 달라지게 됨
   - where title= ? 또는 where writer= ?
   - 조건에 따라 다른 쿼리를 작동하게 하는 것 : 동적태그
@@ -440,26 +440,182 @@ private void selectOne2() {
     + collection
     + item
     + open : 첫 시작을 괄호로 설정가능
-    + seperator : 구분자
+    + separator : 구분자
     + close : (괄호) 닫기
   - `<if>`
   - `<choose>`
   - `<where>`
     + `<where> <if test="writer != null"> writer like #{writer} </if> </where>` 
-    + <span style="color:red">다른 조건에 AND가 붙어있어도 where을 사용하면 알아서 생략해준다
+    + <span style="color:red">다른 조건에 AND가 붙어있어도 where을 사용하면 알아서 생략해준다</span>
   - `<set>`
+  
+<br>  
 
+### 1. BoardVO의 int[] 멤버변수로 넘기기 
+* mapper파일 
+  
+```xml
+<select id="selectNos" resultMap="boardMap" >
+  <include refid="selectBoard" />
+  where no in
+  <foreach collection="nos" item="bno" open="(" separator="," close=")">
+    #{bno}
+  </foreach>
+  order by no
+</select>
+```
 
+<br>
 
+* DAO
 
+```java
+private void selectNos() {
+  BoardVO vo = new BoardVO();
+  vo.setNos(new int[] {1,2,4,7,11,15,18,20,21});
+  /*
+   * select * from t_board where no in(1,2,4,7,11,15,18,20,21);
+   */
 
+  List<BoardVO> list = session.selectList("board.BoardDAO.selectNos", vo);
+  for(BoardVO b:list) {
+    System.out.println(b);
+  }
+}
+```
 
+<br><br>
 
+### 2. List로 넘기기
+* mapper파일
+  
+```xml
+<select id="selectNos2" resultMap="boardMap" parameterType="java.util.List">
+<!-- parameterType="list, map" 가능  -->
+  <include refid="selectBoard" />
+  where no in
+  <foreach collection="list" item="bno" open="(" separator="," close=")">
+    #{bno}
+  </foreach>
+  order by no
+</select>
+```
 
+<br>
 
+* DAO
 
+```java
+private void selectNos2() {
 
+  /*
+   * select * from t_board where no in(1,2,4,7,11,15,18,20,21);
+   */
 
+  List<Integer> nos = new ArrayList<>();
+  nos.add(1);
+  nos.add(2);
+  nos.add(3);
+  nos.add(4);
+  nos.add(5);
+  List<BoardVO> list = session.selectList("board.BoardDAO.selectNos2", nos);
+
+  for(BoardVO b:list) {
+    System.out.println(b);
+  }
+}
+```
+
+<br><br>
+
+### 3. 배열로 넘기기
+* mapper 파일
+
+```xml
+<select id="selectNos3" resultMap="boardMap" parameterType="array">
+  <include refid="selectBoard" />
+  where no in
+  <foreach collection="list" item="bno" open="(" separator="," close=")">
+    #{bno}
+  </foreach>
+  order by no
+</select>
+```
+
+<br>
+
+* DAO
+
+```java
+private void selectNos3() {
+
+  /*
+   * select * from t_board where no in(1,2,4,7,11,15,18,20,21);
+   */
+
+  int[] nos = new int[] {1,2,3,4,5,6,7};
+  List<BoardVO> list = session.selectList("board.BoardDAO.selectNos3", nos);
+
+  for(BoardVO b:list) {
+    System.out.println(b);
+  }
+}
+```
+
+<br><br><br>
+
+## 동적으로 수행하기02 like
+* 제목으로 찾기할 때 "파일"이라는 단어가 들어간 게시글을 찾고 싶을 때
+  - '파일%'
+
+* mapper파일
+  - like를 사용하려면  preparedStatement객체(#{title})가 아닌 Statement객체로 표현해야함.
+  - PreparedStatement : `#`
+  - Statement : `$`
+
+```xml
+<select id="selectWhere" parameterType="string">
+		<include refid="selectBoard" />
+		<!-- like를 사용하려면  preparedStatement객체(#{title})가 아닌 Statement객체로 표현해야함. 
+          문자열이므로 ' '를 붙여주었음 -->
+		where title like '${title}%'
+	</select>
+```
+
+## 제목과 작성자로 찾기 (like)
+* 조건에 따라 불니하고 싶을 때 where, if 태그 사용
+
+```xml
+<select id="selectWhere2" parameterType="boardVO" resultMap="boardMap">
+  <include refid="selectBoard" />
+  <where>
+    <if test="title != null">
+      title like '${title}%'
+    </if>
+    <if test="writer != null">
+      and writer=#{writer}
+    </if>
+  </where>
+</select>
+```
+
+<br>
+
+* DAO
+
+```java
+private void selectWhere2() {
+			
+  BoardVO vo = new BoardVO();
+  //vo.setTitle("객체로 삽입");
+  vo.setWriter("홍길동");
+
+  List<BoardVO> list = session.selectList("board.BoardDAO.selectWhere2",vo);
+  for(BoardVO board :list) {
+    System.out.println(board);
+  }
+}
+```
 
 
 <br><br><br><br>
