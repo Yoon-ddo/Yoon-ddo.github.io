@@ -36,6 +36,7 @@ tags:
 
 # 2. XML을 이용한 방법
 ## mybatis-config.xml
+* 환경설정파일
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -75,11 +76,7 @@ jdbc.user=scott
 jdbc.password=tiger
 ```
 
-* 위와 같이 설정해주면 아래와 같은 의미이다.
-  - \<property name="driver" value="${jdbc.driver}"/>
-  - \<property name="url" value="${jdbc.url}"/>
-  - \<property name="username" value="${jdbc.username}"/>
-  - \<property name="password" value="${jdbc.password}"/>
+* 위와 같이 설정해주면 아래와 같이 `mybatis-config.xml` 를 수정한다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -160,6 +157,77 @@ public class MyBatisMain {
 	}
 }
 ```
+
+
+## mapper파일
+* 실제 쿼리를 적용할 파일
+* 태그종류
+  - select
+  - insert
+  - update
+  - delete
+* 구문을 구분하는 속성은 `id`속성이다.
+
+```xml
+<select id="selectAll">
+         select * 
+         from t_board
+</select>
+
+<select id="selectByNo">
+         select * 
+         from t_board
+         where no = 5
+</select>
+```
+
+* mapper파일이 하나가 아닐 수도 있다.
+  - `mapper1.xml`파일에 `id="selectAll"`이 있고 `mapper2.xml`에도 `id="selectAll"`이 있을수도 있음
+  - namespace (package와 같은 역할) 태그를 붙여주면 구분할 수 있음
+    + `<mapper namespace="member.dao">` : member.dao의 selectAll이라는 의미
+<br>
+
+### board.xml
+* common.db패키지 생성 후 board.xml 파일 생성 (mapper파일을 관리하는 패키지)
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mybatis.example.BlogMapper">
+
+</mapper>
+```
+
+<br>
+
+* mybatis-config.xml 파일 mapper 태그 수정
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="db.properties" />
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+	<mappers>
+    <mapper resource="common/db/board.xml"/>
+  </mappers>
+</configuration>
+```
+
 
 
 
