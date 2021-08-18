@@ -163,10 +163,16 @@ public class MyBatisMain {
 * 실제 쿼리를 적용할 파일
 * 태그종류
   - select
+    + `resultType` : record와 관련 
   - insert
   - update
   - delete
-* 구문을 구분하는 속성은 `id`속성이다.
+
+* 속성 종류
+  - 구문을 구분하는 속성은 `id`속성이다.
+  - `parameterType` : 객체로부터 날아온 객체의 type
+    + parameterType="kr.ac.kopo.board.BoardVO"
+    + 객체 링크확인
 
 ```xml
 <select id="selectAll">
@@ -189,14 +195,19 @@ public class MyBatisMain {
 
 ### board.xml
 * common.db패키지 생성 후 board.xml 파일 생성 (mapper파일을 관리하는 패키지)
+* sql문 뒤에 `;`는 쓰지 않는다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mybatis.example.BlogMapper">
-
+<mapper namespace="board.BoardDAO">
+<!-- kr.ac.kopo 생략된것. -->
+	<insert id="newBoard">
+		insert into t_board(no, title, writer, content)
+			values(seq_tboard_no.nextval, 'mybatis연습', 'hong', 'insert')
+	</insert>
 </mapper>
 ```
 
@@ -222,14 +233,55 @@ public class MyBatisMain {
       </dataSource>
     </environment>
   </environments>
-	<mappers>
+  <mappers>
     <mapper resource="common/db/board.xml"/>
   </mappers>
 </configuration>
 ```
 
+<br>
 
+## DAO객체
+* SqlSession객체가 있는 곳
 
+```java
+package kr.ac.kopo.board;
+
+import org.apache.ibatis.session.SqlSession;
+
+import kr.ac.kopo.MyConfig;
+
+public class BoardDAO {
+	private SqlSession session;
+	
+	
+	public BoardDAO() {
+		// MyConfig객체로 DB접근
+		session = new MyConfig().getInstance();
+		System.out.println(session);
+	}
+	
+	public void work() {
+		insert();
+	}
+	
+	private void insert() {
+		
+		BoardVO vo = new BoardVO();
+		vo.setTitle("객체로 삽입");
+		vo.setWriter("홍길동");
+		vo.setContent("삽입왜안돼 ㅠ");
+		
+		// "namespace.id"형식으로 작성
+		session.insert("board.BoardDAO.newBoard", vo);
+		// commit필요
+		session.commit();
+		
+		System.out.println("삽입완료");
+	}
+
+}
+```
 
 
 
