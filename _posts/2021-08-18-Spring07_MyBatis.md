@@ -446,8 +446,8 @@ private void selectOne2() {
   - `<choose>`
   - `<where>`
     + `<where> <if test="writer != null"> writer like #{writer} </if> </where>` 
-    + <span style="color:red">다른 조건에 AND가 붙어있어도 where을 사용하면 알아서 생략해준다</span>
-
+    + <span style="color:red">다른 조건에 AND가 붙어있어도 where을 사용하면 알아서 생략해준다
+  - `<set>`
 
 
 
