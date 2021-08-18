@@ -34,7 +34,7 @@ tags:
 
 <br><br>
 
-# 2. XML을 이용한 방법
+# 2. XML을 이용한 방법01
 ## mybatis-config.xml
 * 환경설정파일
 
@@ -63,6 +63,14 @@ tags:
 
 * driver, url, username, password는 바뀔 수도 있는 값이다.
   - properties 파일에 넣어두고 그때그때 바꾸어준다.
+
+* mybatic-config.xml파일에서 `typeAlias`를 지정하면 VO 객체를 간격하게 사용할 수 있다.
+
+```xml
+<typeAliases>
+  <typeAlias  type="kr.ac.kopo.board.BoardVO" alias="boardVO"/>
+</typeAliases>
+```
 
 <br>
 
@@ -163,7 +171,7 @@ public class MyBatisMain {
 * 실제 쿼리를 적용할 파일
 * 태그종류
   - select
-    + `resultType` : record와 관련 
+    + `resultType` : select했을 때 받아오는 값의 타입 지정.
   - insert
   - update
   - delete
@@ -244,6 +252,8 @@ public class MyBatisMain {
 ## DAO객체
 * SqlSession객체가 있는 곳
 
+### 1. BoardDAO.java에서 insert 실행
+
 ```java
 package kr.ac.kopo.board;
 
@@ -283,6 +293,37 @@ public class BoardDAO {
 }
 ```
 
+### 2. BoardDAO.java에서 selectAll 실행
+* board.xml에 추가
+  - resultType을 boardVO로 해주었기 때문에 알아서 VO객체로 받아옴.
+  
+```xml
+<select id="selectAll" resultType="boardVO">
+  select * 
+  from t_board
+  order by no desc
+</select>
+```
+
+<br>
+
+* BoardDAO.java 수정
+
+```java
+public void work() {
+	
+		//insert();
+		selectAll();
+	}
+	
+	private void selectAll() {
+		//board.xml파일에서 return타입설정해줬기 때문에 자동으로 형변환 됨.
+		List<BoardVO> list = session.selectList("board.BoardDAO.selectAll");
+		for(BoardVO board:list) {
+			System.out.println(board);
+		}
+	}
+  ```
 
 
 
