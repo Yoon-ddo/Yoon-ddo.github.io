@@ -24,7 +24,7 @@ tags:
   - SqlMapConfig파일(환경설정 파일)과 Mapper파일(실제 쿼리를 적용할 파일)이 필요( XML )
   - SqlSession객체를 얻어온 다음 myBatis와 연동
 
-<br><br>
+<br><br><br>
 
 # 1. 환경설정(Console모드)
 1. [MyBatis](https://mybatis.org/mybatis-3/ko/index.html)
@@ -32,9 +32,9 @@ tags:
 3. lib 폴더 만들어서 파일 복붙 후 BuildPath 라이브러리 추가
 4. ojdbc8.jar 파일도 lib에 복붙 후 BuildPath 라이브러리 추가
 
-<br><br>
+<br><br><br>
 
-# 2. XML을 이용한 방법01
+# 2. XML을 이용한 방법
 ## mybatis-config.xml
 * 환경설정파일
 
@@ -289,7 +289,6 @@ import kr.ac.kopo.MyConfig;
 public class BoardDAO {
 	private SqlSession session;
 	
-	
 	public BoardDAO() {
 		// MyConfig객체로 DB접근
 		session = new MyConfig().getInstance();
@@ -428,10 +427,26 @@ private void selectOne2() {
 </select>
 ```
 
+<br><br><br>
 
+## 동적으로 수행하기
+* 제목으로 검색, 작성자로 검색 기능을 구현할 때 sql에서 바뀌는 부분은 where절만 달라지게 됨
+  - where title= ? 또는 where writer= ?
+  - 조건에 따라 다른 쿼리를 작동하게 하는 것 : 동적태그
 
-
-
+* 태그
+  - `<foreach>` : where addr in ('seoul','busan','jeju')의 동작이 가능하게 해줌
+    + `<foreach item="addr" open="(" seperator="," close=")" collection="addrs"></foreach>`
+    + collection
+    + item
+    + open : 첫 시작을 괄호로 설정가능
+    + seperator : 구분자
+    + close : (괄호) 닫기
+  - `<if>`
+  - `<choose>`
+  - `<where>`
+    + `<where> <if test="writer != null"> writer like #{writer} </if> </where>` 
+    + <span style="color:red">다른 조건에 AND가 붙어있어도 where을 사용하면 알아서 생략해준다</span>
 
 
 
