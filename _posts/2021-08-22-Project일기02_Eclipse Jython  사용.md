@@ -68,7 +68,6 @@ def testFunc(a,b):
 
 
 #### 실행방법 1
-* 정확히는 모르겠지만 이 방법은 결과값을 파라미터로 받을 순 없을 것 같다.
 
 ```java
 
@@ -80,7 +79,14 @@ public String pyInfo() {
 
   intPre = new PythonInterpreter();
   intPre.execfile("python파일이 있는 경로");
-  intPre.exec("print(testFunc(5,10))"); // testFunc(a,b) 실행
+  //intPre.exec("print(testFunc(5,10))"); // testFunc(a,b) 실행
+  
+  intPre.exec("a = testFunc(5,10)");
+  PyObject result = intPre.get("a");  //변수를 받기
+  System.out.println(result.toString());
+  
+  
+  
   return "pythonpj/pyInfo";
 }
 
@@ -98,7 +104,6 @@ public String pyInfo() {
 <br>
 
 #### 실행방법 2
-* PyObject로 함수 실행한 결과값을 받아올 수 있는 듯 하다!
 
 ```java
 private static PythonInterpreter intPre;
