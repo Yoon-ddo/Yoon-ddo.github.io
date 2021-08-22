@@ -68,6 +68,7 @@ def testFunc(a,b):
 
 
 #### 실행방법 1
+* 정확히는 모르겠지만 이 방법은 결과값을 파라미터로 받을 순 없을 것 같다.
 
 ```java
 
@@ -97,6 +98,7 @@ public String pyInfo() {
 <br>
 
 #### 실행방법 2
+* PyObject로 함수 실행한 결과값을 받아올 수 있는 듯 하다!
 
 ```java
 private static PythonInterpreter intPre;
