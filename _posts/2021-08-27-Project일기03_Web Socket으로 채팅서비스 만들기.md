@@ -228,7 +228,7 @@ public class ConsultController {
 			});
 		});
 
-		var sock = new SockJS("http:\//내아이피:포트번호/프로젝트이름/uri");
+		var sock = new SockJS("http://내아이피:포트번호/프로젝트이름/uri");
 		sock.onmessage = function(e) {
 			$("#chat").append(e.data + "<br/>");
 		}
@@ -245,8 +245,13 @@ public class ConsultController {
 
 # Issues
 ## 1. 내 컴퓨터에서는 정상작동되는데 다른사람컴퓨터에서 내 프로젝트 접근안되는 문제가 발생
-* 해결방법은 나중에....
+* 방화벽 해제했더니 된다 ㅋ...
+* 방화벽 해제 방법
+  1. `시작` - `방화벽 상태 확인`
+  2. 왼쪽메뉴 중 `Windows Defender 방화벽 설정 또는 해제`
+  3. Windows Defender 방화벽 사용안함 (권장하지 않음) 두개 모두 체크 후 확인
 
+* 그런데 <span style="color:red;">방화벽 해제하면 위험한거아닌가?</span> 에 대한 궁금증이 생겼다.
 
 
 
