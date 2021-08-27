@@ -39,9 +39,214 @@ tags:
 # 코드 구현하기
 ## 1. 의존성 추가
 * pom.xml 파일에 라이브러리를 추가한다.
+  - jackson-databind : 웹소켓에서 json형식으로 주고받기 때문에 추가해야함
+  - spring-websocket : Spring에서 웹소켓기능을 사용할 수 있게함.
+  - slf4j-api
 
 ```xml
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-websocket</artifactId>
+    <version>5.3.9</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+<dependency>
+    <groupId>javax.websocket</groupId>
+    <artifactId>javax.websocket-api</artifactId>
+    <version>1.1</version>
+    <scope>provided</scope>
+</dependency>
+
+
+<!-- 로깅 관련 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.25</version>
+</dependency>
 ```
+
+<br><br>
+
+## 2. bean등록
+* spring-mvc.xml
+  - `<beans>`를 수정하고
+  - `<websocket:handlers>`와 `<bean>`객체를 추가한다.
+
+```xml
+<!-- beans에 추가 -->
+xmlns:websocket="http://www.springframework.org/schema/websocket"
+
+<!-- beans태그 안에 추가 -->
+<!-- Handler가 작동하는 객체등록 -->
+<bean id="consultHandler" class="kr.co.hana.consult.handler.ConsultHandler" />
+
+<!-- Websocket과 handler 매핑
+  path : 요청 uri 
+  id : Handler의 bean객체 id와 일치해야함
+-->
+<websocket:handlers >
+    <websocket:mapping handler="consultHandler" path="/hanaconsultPrac" />
+    <websocket:sockjs websocket-enabled="true" />
+</websocket:handlers>
+```
+
+<br><br>
+
+## 3. Handler 클래스와 Config 생성
+* ConsultHandler.java
+
+```java
+package kr.co.hana.consult.handler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+
+public class ConsultHandler extends TextWebSocketHandler {
+
+private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+	
+	@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		//System.out.println("afterConnectionEstablished");
+		sessionList.add(session);
+	}
+	
+	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		for(WebSocketSession sess: sessionList) {
+			//System.out.println("handleTextMessage" + message);
+			sess.sendMessage(new TextMessage(session.getId()+": "+message.getPayload()));
+		}
+	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		sessionList.remove(session);
+	}
+}
+```
+
+<br>
+
+* WebSocketConfig.java
+
+```java
+package kr.co.hana.consult.handler;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+
+@Configuration
+@EnableWebSocket
+public class WebSocketConfig implements WebSocketConfigurer{
+	
+	
+	@Autowired
+	private ConsultHandler consultHandler;
+
+	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		registry.addHandler(consultHandler, "/hanaconsultPrac");
+	}
+
+}
+```
+
+<br><br>
+
+## 4. Controller 등록
+* 나는 특정 uri 요청시 실행하게 하고 싶었기 때문에 Controller를 설정했다.
+
+```java
+package kr.co.hana.consult.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class ConsultController {
+	
+
+	@GetMapping("/hanaconsultPrac")
+	public String OnlineConsult2() throws Exception {
+		
+		System.out.println("상담받아봥");
+		return "consult/consultprac";
+	}
+
+}
+```
+
+<br><br>
+
+## 5. 화면구성
+
+~~~html
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html>
+<head>
+<title>Home</title>
+<meta charset="UTF-8" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="${ pageContext.request.contextPath }/resources/js/sockjs.min.js"></script>
+</head>
+<body>
+	<form id="chatForm">
+		<input type="text" id="message" />
+		<button>send</button>
+	</form>
+	<div id="chat"></div>
+	<script>
+		$(document).ready(function() {
+			$("#chatForm").submit(function(event) {
+				event.preventDefault();
+				sock.send($("#message").val());
+				$("#message").val('').focus();
+			});
+		});
+
+		var sock = new SockJS("http:\//내아이피:포트번호/프로젝트이름/uri");
+		sock.onmessage = function(e) {
+			$("#chat").append(e.data + "<br/>");
+		}
+
+		sock.onclose = function() {
+			$("#chat").append("연결 종료");
+		}
+	</script>
+</body>
+</html>
+
+~~~
+
+
+# Issues
+## 1. 내 컴퓨터에서는 정상작동되는데 다른사람컴퓨터에서 내 프로젝트 접근안되는 문제가 발생
+* 해결방법은 나중에....
+
 
 
 
