@@ -33,6 +33,9 @@ tags:
 * Web Socket은 IETF에 의해 RFC 6455로 표준화된 기술이다.
 * http와 다르게 이중통신을 지원
 * client의 요청 없이도 server에서 먼저 client에게 정보를 전송
+* 영구적 양방향 통신이다.
+* HTML 5의 주요 API
+
 
 <br><br>
 
@@ -123,13 +126,19 @@ private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		//System.out.println("afterConnectionEstablished");
+		/*
+        채팅을 위해 페이지에 연결 후 해당 클라이언트의 세션을 sessionList에 add
+     */
 		sessionList.add(session);
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		for(WebSocketSession sess: sessionList) {
+      /*
+        웹소켓 서버로 메시지를 전송했을 때 이 메서드가 호출됨. 
+        
+      */
 			//System.out.println("handleTextMessage" + message);
 			sess.sendMessage(new TextMessage(session.getId()+": "+message.getPayload()));
 		}
@@ -137,36 +146,11 @@ private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    /*
+      연결이 끊어진 경우 (채팅방 나간 경우) remove로 해당 세션 제거
+    */
 		sessionList.remove(session);
 	}
-}
-```
-
-<br>
-
-* WebSocketConfig.java
-
-```java
-package kr.co.hana.consult.handler;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-
-@Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer{
-	
-	
-	@Autowired
-	private ConsultHandler consultHandler;
-
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(consultHandler, "/hanaconsultPrac");
-	}
-
 }
 ```
 
@@ -227,7 +211,9 @@ public class ConsultController {
 				$("#message").val('').focus();
 			});
 		});
-
+    
+    // 로컬에서만 작동하게 하려면 localhost:포트번호도 가능.
+    // 다른컴퓨터에서 작동하게하려면 cmd -> ipconfig에서 내아이피확인 후 입력.
 		var sock = new SockJS("http://내아이피:포트번호/프로젝트이름/uri");
 		sock.onmessage = function(e) {
 			$("#chat").append(e.data + "<br/>");
@@ -253,6 +239,15 @@ public class ConsultController {
   3. Windows Defender 방화벽 사용안함 (권장하지 않음) 두개 모두 체크 후 확인
 
 * 그런데 <span style="color:red;">방화벽 해제하면 위험한거아닌가?</span> 에 대한 궁금증이 생겼다.
+- 교수님께서 방화벽 해제가 아니라 포트를 열라고 하셧다... 이게아닌가? ㅠㅋㅋㅋ
+
+<br>
+
+## 2. 메시지 중복에러
+* 위의 코드를 응용하여 Template에 적용시켰더니 메시지가 두번 찍히는 에러가 발생했다.
+* 받는 사람 화면에서는 잘 출력되는데 내가 보낸 메시지가 내쪽, 상대쪽에 두번 찍히는 에러발생
+* 어떻게 해결할까...ㅠ
+
 
 
 
