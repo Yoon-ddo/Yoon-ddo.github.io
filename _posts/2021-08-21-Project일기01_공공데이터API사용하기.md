@@ -6,7 +6,7 @@ toc_label: "Contents of Page"
 categories:
   - Project
 tags:
-  - Java_Project
+  - Web_Project
 ---
 
 <br><br>
