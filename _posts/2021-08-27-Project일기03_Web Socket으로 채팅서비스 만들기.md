@@ -78,6 +78,13 @@ tags:
 </dependency>
 ```
 
+### 2-1 web.xml  웹소켓 설정(비동기 지원)
+* `<servlet>`태그안 제일 마지막에 아래의 태그를 추가한다.
+
+```xml
+<async-supported>true</async-supported>
+```
+
 <br><br>
 
 ## 2. bean등록
