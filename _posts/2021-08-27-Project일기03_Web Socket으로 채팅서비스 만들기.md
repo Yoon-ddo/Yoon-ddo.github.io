@@ -237,6 +237,25 @@ public class ConsultController {
 
 <br><br>
 
+# Stomp
+* [참고블로그](https://inspirit941.tistory.com/343)
+* [참고Github](https://github.com/Java-Techie-jt/Spring-Boot-WebSocket)
+* WebSocket은 단지 통신 프로토콜이다.
+* Stomp : Streaming Text Oriented Messaging Protocol
+* 프로토콜을 지원하는 Message Broker와 Stomp Client간 통신을 지ㅜ언
+* Spring은 default로 지원한다.
+* 다른 Messaging Protocol (RabbitMQ / ActiveMQ)등도 사용 가능
+
+## 구현순서
+1. WebSocket Config 클래스를 생성 (WebSocketMessageBrokerConfigurer 인터페이스 상속)
+2. 메시지 클래스 생성 ( VO )
+3. Controller 생성 ( 클라이언트로부터 메시지를 받아 처리 )
+4. 프론트 구성
+
+<br><br>
+
+
+
 # Issues
 ## 1. 내 컴퓨터에서는 정상작동되는데 다른사람컴퓨터에서 내 프로젝트 접근안되는 문제가 발생
 * 방화벽 해제했더니 된다 ㅋ...
