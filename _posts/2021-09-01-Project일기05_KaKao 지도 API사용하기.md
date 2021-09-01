@@ -1,0 +1,87 @@
+---
+title: Project일기05_KaKao 지도 API사용하기
+toc: true
+toc_sticky: true
+toc_label: "Contents of Page"
+categories:
+  - Project
+tags:
+  - Web_Project
+---
+
+<br><br>
+
+# KaKao API 사용시 발생한 이슈
+## 1. 닫기가 가능한 오버레이 제작
+* [kakao 참고문서](https://apis.map.kakao.com/web/sample/removableCustomOverlay/)
+* 에러 내용 : `close`클래스에 `onclick="closeOverlay()"`함수를 찾을 수 없다는 에러발생
+
+```javascript
+
+var content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            '            카카오 스페이스닷원' + 
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>';
+// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+function closeOverlay() {
+    overlay.setMap(null);     
+}
+```
+
+### 해결방법
+* `createElement`를 사용하여 content내용과 비슷하게 짰더니 해결했다 ㅠㅠ
+* 사용방법 : createElement로 태그나 요소를 생성하고 속성을 정의하여 append한다.
+  - appendChild와 append의 차이점
+    + appendChild는 오직 Node객체만 받을 수 있고, 한 번에 하나씩만 추가할 수 있다.
+    + append는 여러개의 노드와 문자를 추가할 수 있다.
+* `.className` : 클래스네임 설정
+* `.innerHTML` : 텍스트 삽입
+* `.onclick` : onclick이벤트 지정
+
+```javascript
+var wrap = document.createElement('div');
+wrap.className = 'wrap';
+var info = document.createElement('div');
+info.className = 'info';
+var title = document.createElement('div');
+title.className = 'title'
+var closeBtn = document.createElement('button');
+closeBtn.innerHTML = '닫기';
+closeBtn.onclick = function(){
+  overlay.setMap(null);
+}
+var body = document.createElement('body')
+body.classname="body";
+var desc = document.createElement('div');
+desc.className='desc';
+var ellipsis = document.createElement('div')
+ellipsis.className ='ellipsis'
+ellipsis.innerHTML = addr
+
+desc.append(ellipsis)
+body.append(desc)
+title.append(closeBtn)
+info.append(title,body)
+wrap.append(info)
+
+overlay.setContent(wrap)
+```
+
+<hr>
+
+<br><br><br><br>
+
