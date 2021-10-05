@@ -1,5 +1,5 @@
 ---
-title: Project일기03_Web Socket으로 채팅서비스 만들기
+title: Web Socket으로 채팅서비스 만들기
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
