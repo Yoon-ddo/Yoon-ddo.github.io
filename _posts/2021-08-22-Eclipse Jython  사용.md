@@ -1,5 +1,5 @@
 ---
-title: Project일기02_Eclipse Jython 사용 ( + Pydev )
+title: Eclipse Jython 사용 ( + Pydev )
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
