@@ -80,7 +80,7 @@ If the screen below turns on the chrome something like that, It is the end of th
 
 <br>
 
-![EndOfInstall](/assets/imgss/FinishReact.png)
+![EndOfInstall](/assets/imgss/2023-12-02-FinishReact.png)
 
 
 
