@@ -14,23 +14,23 @@ tags:
 * Because React is a library which is based on JavaScript.
 * Especially JavaScript Immutability.
 * **What is the Immutability?**
-  * It means unchangeable
-  * It can prevent the original data from being damaged.
+  - It means unchangeable
+  - It can prevent the original data from being damaged.
 
 <br><br><br>
 
 # 2. Data Type in JavaScript
 * Primitive : Number, String, Boolean, Null, Unfined, Symbol ...
-  * <span style="color:red">It can't be changed</span> 
+  - <span style="color:red">It can't be changed</span> 
 * Object : Object, Array, Function ...
-  * <span style="color:red">It can be changed</span>  
+  - <span style="color:red">It can be changed</span>  
 * JavaScript treat ***Primitive Data Type*** and ***Obect Data Type*** differently.
 
 <br><br><br>
 
 # 3. Immutability
 ## 3-1. const Keep your primitive value unchangeable
-* const
+* `const`  
 * If you use Variable type of <span style="color:red">const</span>, you can keep variable's name.
 * You can't change const variable's value. If you try, It's going to return Error.
 
@@ -107,8 +107,8 @@ console.log(o1, o2, o1 === o2, o1.score === o2.score);
 ```
 
 * If you `obj2.score.push(3)` without `obj2.score = o2.score.concat()` (= copy),  obj1 is also gonna change like as below
-  * {name:'John', score: \[1,2,3\]}
-  * And They are also different,  so `obj1 === obj2` return false.  
+  - `{name:'John', score: [1,2,3]}`  
+  - And They are also different,  so `obj1 === obj2` return false.  
 
 <br>
 
