@@ -108,8 +108,8 @@ console.log(o1, o2, o1 === o2, o1.score === o2.score);
 ```
 
 
-* If you obj2.score.push(3) without obj2.score = o2.score.concat() (= copy),  obj1 is also gonna change like as below
-  * {name:'John', score: [1,2,3]}
+* If you `obj2.score.push(3)` without `obj2.score = o2.score.concat()` (= copy),  obj1 is also gonna change like as below
+  * {name:'John', score: \[1,2,3\]}
   * And They are also different,  so `obj1 === obj2` return false.  
 
 <br>
@@ -132,7 +132,6 @@ console.log(obj1, obj1.age); // {age : 5}, 5
 * But you can change child's value. If you use only `Object.freeze()`  
 
 ```JavaScript
-// But you can change child's value.
 var emp = { name : "Mark", address : {  street: "Rohini", city: "Delhi",  }, };
 Object.freeze(emp);
 emp.name = 'Jenny';
@@ -141,7 +140,7 @@ console.log(emp.name, emp.address.city) // Mark , Seoul
 ```
 
 
-* If you wanna keep all of Object values, command like as below  
+* If you wanna keep all of Object values, command like as below.  
 
 ```JavaScript
 function deepFreeze(object) {
