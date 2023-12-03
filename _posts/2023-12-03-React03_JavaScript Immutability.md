@@ -19,12 +19,20 @@ tags:
 
 <br><br><br>
 
-# 2. Keep variable's name Unchangeable
+# 2. Data Type in JavaScript
+* Primitive : Number, String, Boolean, Null, Unfined, Symbol ...
+  * <span style="color:red">It can't be changed</span> 
+* Object : Object, Array, Function ...
+  * <span style="color:red">It can be changed</span>  
+* JavaScript treat ***Primitive Data Type*** and ***Obect Data Type*** differently.
+
+<br><br><br>
+
+# 3. Immutability
+## 3-1. const Keep your primitive value unchangeable
 * const
 * If you use Variable type of <span style="color:red">const</span>, you can keep variable's name.
 * You can't change const variable's value. If you try, It's going to return Error.
-
-<br>
 
 ```Javascript
 var a = 1; 
@@ -35,18 +43,9 @@ const c = 1;
 c = 2; // error
 ```
 
-<br><br><br>
+<br>
 
-# 3. Data Type in JavaScript
-* Primitive : Number, String, Boolean, Null, Unfined, Symbol ...
-  * <span style="color:red">It can't be changed</span> 
-* Object : Object, Array, Function ...
-  * <span style="color:red">It can be changed</span>  
-* JavaScript treat ***Primitive Data Type*** and ***Obect Data Type*** differently
-
-<br><br>
-
-## 2-1. Value
+## 3-2. Value
 
 ```JavaScript
 var prm1 = 1;
@@ -60,7 +59,7 @@ console.log(o1===o2); // false (Two of variable's values are in different place.
 
 <br>
 
-## 2-2. Change the Value
+## 3-3. Change the Value
 
 ```JavaScript
 var prm1 = 1;
@@ -83,7 +82,7 @@ console.log(obj1, obj3, obj1 === obj3); // {name:'Kevin'} {name:'Kevin'} true
 
 <br>
 
-## 2-3. Copy and assign
+## 3-4. Copy and assign
 
 ```JavaScript
 var obj1 = {name:'John'}
@@ -96,7 +95,7 @@ console.log(obj1, obj2, obj1 === obj2); // {name:'John'} {name:'Kevin'} false
 
 <br>
 
-## 2-4. Modify value of copy without changing original
+## 3-5. Modify value of copy without changing original
 
 ```JavaScript
 var obj1 = {name:'John', score:[1,2]}
@@ -107,15 +106,16 @@ console.log(o1, o2, o1 === o2, o1.score === o2.score);
 // {name:'John', score:[1,2]} {name:'John', score:[1,2,3]} false false
 ```
 
-
 * If you `obj2.score.push(3)` without `obj2.score = o2.score.concat()` (= copy),  obj1 is also gonna change like as below
   * {name:'John', score: \[1,2,3\]}
   * And They are also different,  so `obj1 === obj2` return false.  
 
 <br>
 
-## 2-5. Object freeze
-* You can't change value, when you use `freeze`  
+## 3-6. Object freeze
+* You can't change value, when you use `freeze`
+
+<br>
 
 ```JavaScript
 var obj1 = {age : 5};
@@ -126,8 +126,7 @@ Object.isFrozen(obj1) // true
 
 obj1.name = 'John';
 console.log(obj1, obj1.age); // {age : 5}, 5
-```
-
+```  
 
 * But you can change child's value. If you use only `Object.freeze()`  
 
@@ -138,7 +137,6 @@ emp.name = 'Jenny';
 emp.address.city = 'Seoul';
 console.log(emp.name, emp.address.city) // Mark , Seoul
 ```
-
 
 * If you wanna keep all of Object values, command like as below.  
 
