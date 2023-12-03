@@ -1,12 +1,12 @@
 ---
-title: React 사용하기
+title: React01_About React
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
 categories:
-  - Project
+  - Study
 tags:
-  - Web_Project
+  - Project
 ---
 
 <br><br>
@@ -70,6 +70,7 @@ tags:
 
 ## 5. React 참고문서
 * [Reactjs](https://ko.reactjs.org/docs/getting-started.html)
+* [LearnReact](https://react.dev/learn)
 
 
 
