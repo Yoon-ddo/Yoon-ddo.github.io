@@ -1,5 +1,5 @@
 ---
-title: FrontEnd01_Install React on MacOS
+title: React02_Install React on MacOS
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
@@ -17,11 +17,7 @@ tags:
 
 ## 1. Download Node.js
 
-<br>
-
 <https://nodejs.org/en/>
-
-<br>
 
 I installed the latest version of the Node.js, but that was unmatched with my npm.
 
@@ -29,11 +25,7 @@ I installed the latest version of the Node.js, but that was unmatched with my np
 
 ## 2. Download VScode
 
-<br>
-
 <https://code.visualstudio.com/download>
-
-<br>
 
 Let me show you how I solved the problem.
 
@@ -73,8 +65,6 @@ npm run start
 <br><br><br>
 
 ## 4. Finish
-
-<br>
 
 If the screen below turns on the chrome something like that, It is the end of the install React!
 
