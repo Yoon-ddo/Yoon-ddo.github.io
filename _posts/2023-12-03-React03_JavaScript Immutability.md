@@ -37,14 +37,14 @@ c = 2; // error
 
 <br><br><br>
 
-# 2. Data Type in JavaScript
+# 3. Data Type in JavaScript
 * Primitive : Number, String, Boolean, Null, Unfined, Symbol ...
   * <span style="color:red">It can't be changed</span> 
 * Object : Object, Array, Function ...
   * <span style="color:red">It can be changed</span>  
 * JavaScript treat ***Primitive Data Type*** and ***Obect Data Type*** differently
 
-<br>
+<br><br>
 
 ## 2-1. Value
 
@@ -57,6 +57,8 @@ var obj1 = {name:'kim'}
 var obj2 = {name:'kim'}
 console.log(o1===o2); // false (Two of variable's values are in different place.)
 ```
+
+<br>
 
 ## 2-2. Change the Value
 
@@ -79,6 +81,8 @@ obj3.name = 'Kevin';
 console.log(obj1, obj3, obj1 === obj3); // {name:'Kevin'} {name:'Kevin'} true
 ```
 
+<br>
+
 ## 2-3. Copy and assign
 
 ```JavaScript
@@ -89,6 +93,8 @@ console.log(obj2); // {name:'John'}
 obj2.name = 'Kevin';
 console.log(obj1, obj2, obj1 === obj2); // {name:'John'} {name:'Kevin'} false
 ```
+
+<br>
 
 ## 2-4. Modify value of copy without changing original
 
@@ -101,9 +107,12 @@ console.log(o1, o2, o1 === o2, o1.score === o2.score);
 // {name:'John', score:[1,2]} {name:'John', score:[1,2,3]} false false
 ```
 
+
 * If you obj2.score.push(3) without obj2.score = o2.score.concat() (= copy),  obj1 is also gonna change like as below
   * {name:'John', score: [1,2,3]}
   * And They are also different,  so `obj1 === obj2` return false.
+
+<br>
 
 ## 2-5. Object freeze
 * You can't change value, when you use `freeze`
@@ -119,6 +128,7 @@ obj1.name = 'John';
 console.log(obj1, obj1.age); // {age : 5}, 5
 ```
 
+
 * But you can change child's value. If you use only `Object.freeze()`
 ```JavaScript
 // But you can change child's value.
@@ -128,6 +138,7 @@ emp.name = 'Jenny';
 emp.address.city = 'Seoul';
 console.log(emp.name, emp.address.city) // Mark , Seoul
 ```
+
 
 * If you wanna keep all of Object values, command like as below
 ```JavaScript
