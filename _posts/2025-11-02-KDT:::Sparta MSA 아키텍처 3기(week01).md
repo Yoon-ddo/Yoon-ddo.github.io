@@ -26,13 +26,15 @@ tags:
 * 기술이 바뀌더라도 코드 수정없이 바꿀 수 있다.
 
 ## 현재 실무에서 사용 중인 Pro*C와 다른점은?
-|구분	|POJO (Plain Old Java Object)	|ProC (Pro C)|
+|구분	|POJO (Plain Old Java Object)	|ProC |
 |------|---|---|
-|언어	|Java	|C + SQL (Oracle 전용)|
+|언어	|Java|C + SQL (Oracle 전용)|
 |목적	|프레임워크에 독립적인 객체 지향 코드 작성	|C 코드 안에 SQL을 직접 포함해서 DB 연동|
-|철학	|“순수 자바 코드로 비즈니스 로직만 작성하자”	|“SQL을 C 프로그램에 삽입해서 성능 높은 DB 프로그램 작성”|
-|의존성	|프레임워크에 의존하지 않음	|Oracle Pro*C Precompiler에 의존|
+|철학	|순수 자바 코드로 비즈니스 로직만 작성	|SQL을 C 프로그램에 삽입해서 성능 높은 DB 프로그램 작성|
+|의존성	|프레임워크에 의존하지 않음	|Oracle ProC Precompiler에 의존|
 |사용 맥락	|스프링, JPA, Hibernate 등에서 핵심 철학	|오래된 금융권/레거시 시스템의 DB 프로그래밍|
+
+<br><br>
 
 ## 디렉토리 구조 예시
 ```java
@@ -66,7 +68,7 @@ src/main
      │               ├─ OrderController.java
      │               └─ RefundController.java   
      └── resources
-          ├── db/migration/            # DB 마이그레이션 스크립트 (Flyway, Liquibase)
+          ├── db/migration/            # DB 마이그레이션 스크립트 (Flyway, Liquibase) : 파일명명규칭 !! V<버전>__<설명>.sql 
           ├── application.yml          # 애플리케이션 주요 설정 파일
           └── static/                  # CSS, JS, 이미지 등 정적 리소스
 
