@@ -80,7 +80,7 @@ tags:
 
 # Major
 * **2024.03 ~ 2026.02** : Computer Science
-* **2020.01 ~ 2021** : Data Analysis
+* **2020.01 ~ 2021.11** : Data Analysis
 * **2017.03 ~ 2020.02** : Industrial Design
 * **2014.03 ~ 2017.02** : Craft Design  
 
