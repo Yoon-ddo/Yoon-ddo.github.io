@@ -111,3 +111,104 @@ src/main
 * 혹시 모르니 무조건 함께 가져오자!" 라는 전략. `JOIN`을 사용해 한 번에 모든 데이터를 가져온다.
 ### 지연 로딩(Lazy Loading) : 무조건 함께 부른다.
 * "일단 급한 것만 주고, 필요하다고 하면 그때 가서 가져다주자!" 라는 전략. `User`만 먼저 가져오고, `Purchase`는 나중에 별도 쿼리로 가져온다.
+  
+<br><br>
+
+# 어노테이션 Builder
+* 객체를 만들 때 생성자 대신 가독성 좋게 만들도록 도와주는 Lombok 기능
+## 🚫 기존 방식 (Builder 없을 때)
+```java
+Category category = new Category("전자제품", "가전 및 주변기기", null);
+```
+* 생성자에 어떤 값이 어떤 필드인지 한눈에 안 들어옴
+* 인자가 많을수록 순서 헷갈리기 쉬움
+* 선택적으로 필드 일부만 채우기 어려움
+## ✅ Builder 방식
+```java
+Category category = Category.builder()
+        .name("전자제품")
+        .description("가전 및 주변기기")
+        .parentId(null)
+        .build();
+```
+* 각 필드 이름이 명확하게 드러남
+* 순서 상관없이 값 설정 가능
+* 선택적 필드만 세팅하기 쉬움
+* 메서드 체인 형식으로 보기 깔끔함
+## 생성자 위에 Builder 를 쓰는 경우
+```java
+@Table
+@Entity
+@Getter
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class User {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
+
+  @Column(nullable = false)
+  String name;
+
+  @Column(nullable = false)
+  String email;
+
+  @Column(nullable = false)
+  String passwordHash;
+
+  @Column(nullable = false, updatable = false)
+  @CreationTimestamp
+  LocalDateTime createdAt;
+
+  @Column(nullable = false)
+  @UpdateTimestamp
+  LocalDateTime updatedAt;
+
+
+  @Builder // ✅ 생성자에 Builder 사용 : 그 생성자의 파라미터만 빌더로 사용
+  public User(
+      String name,
+      String email,
+      String passwordHash
+  ) {
+    this.name = name;
+    this.email = email;
+    this.passwordHash = passwordHash;
+  }
+   
+}
+```
+* 이 생성자에 있는 3개의 필드만 빌더로 만들겠다는 뜻입니다.
+* 스프링/JPA용 엔티티에서 자주 이렇게 쓰는 이유는, id, createdAt, updatedAt 같은 필드는 DB에서 자동 생성되기 때문에 빌더로 입력받을 필요가 없기 때문.
+```java
+User user = User.builder()
+    .name("홍길동")
+    .email("hong@example.com")
+    .passwordHash("hashed1234")
+    .build();
+
+// 위 코드를 실행하면 롬복이 자동으로 아래 생성자를 호출 👇
+new User("홍길동", "hong@example.com", "hashed1234");
+```
+## 클래스에 Builder 를 쓰는 경우
+```java
+@Builder
+public class User {
+    Long id;
+    String name;
+    String email;
+    String passwordHash;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+}
+```
+* 빌더로 모든 필드를 세팅할 수 있게 된다. 그러나 Entity에서는 이게 좋지 않다.
+* id, createdAt, updatedAt은 DB가 자동으로 채워야 할 필드인데 빌더로 사용자가 잘못 세팅할 수도 있기 때문
+* 실무에서는 엔티티에서 `@Builder`는 생성자에만 붙이는 게 안전한 패턴이다.
+
+<br><br>
+
+
