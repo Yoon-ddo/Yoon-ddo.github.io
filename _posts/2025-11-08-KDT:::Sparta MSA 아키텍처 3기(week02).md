@@ -305,4 +305,78 @@ src
 > - “HTTP 메서드”를 활용해  
 > - “일관되고 상태 없는 방식”으로 설계된 API입니다.
 
+---
+
+<br><br>
+
+#JPA 영속성 컨텍스트
+* 엔티티(Entity)를 영구 저장하는 환경이라는 뜻
+* 실제로는 애플리케이션과 데이터베이스 사이에서 엔티티를 담아두고 관리하는 논리적인 공간(메모리 캐시)
+* EntityManager를 통해 이 공간에 접근하고 관리
+## 엔티티의 4가지 상태 (Lifecycle)
+* 비영속
+* 영속
+* 준영속
+* 삭제
+## 장점
+* 1차캐시
+* 동일성보장
+* 쓰기지연
+* 변경감지
+
+<br><br>
+
+# 트랜잭션
+* 트랜잭션은 이 두 작업을 '하나의 논리적인 작업 단위'로 묶어, "두 작업이 모두 성공하거나, 하나라도 실패하면 모두 없던 일로 만든다(롤백)"는 것을 보장
+* 이를 통해 어떤 상황에서도 데이터의 일관성과 무결성이 지켜진다.
+## @Transactional
+- **동작 원리: AOP와 프록시(Proxy)**
+    - `@Transactional`이 붙은 메서드를 호출하면, Spring은 **프록시(Proxy)**라는 가상의 대리 객체를 통해 해당 메서드를 실행.
+    - **프록시의 역할**:
+        1. 메서드 실행 전, 데이터베이스에 **트랜잭션을 시작** (`BEGIN TRANSACTION`)
+        2. 실제 메서드 로직을 실행
+        3. 메서드가 예외 없이 성공적으로 종료되면, 트랜잭션을 **커밋(Commit)**하여 모든 변경사항을 DB에 영구 저장
+        4. 메서드 실행 중 `RuntimeException` 등 예외가 발생하면, 트랜잭션을 롤백(Rollback)하여 모든 변경사항을 취소하고 원래 상태로 되돌린다.
+
+```Java
+@Service
+@RequiredArgsConstructor
+public class PurchaseService {
+    private final PurchaseRepository purchaseRepository;
+    private final ProductRepository productRepository;
+
+    @Transactional
+    public void placeOrder(OrderRequest orderRequest) {
+        // 1. 주문 생성 로직 (DB 변경 1)
+        Purchase purchase= new Purchase(purchaseRequest);
+        purchaseRepository.save(order);
+    
+        // 2. 재고 감소 로직 (DB 변경 2)
+        Product product = productRepository.findById(orderRequest.getProductId())
+            .orElseThrow(() -> new EntityNotFoundException("상품 없음"));
+        product.decreaseStock(orderRequest.getQuantity());
+
+        // 3. 만약 재고가 음수가 되면 예외 발생
+        if (product.getStock() < 0) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+    }
+}
+```
+* Checked Exception에 대해서는 롤백하지 않으므로, 필요시 rollbackFor 옵션을 사용해야 한다.
+
+<br><br>
+
+# Dirty Checking과 Flush
+## Dirty Checking 이란?
+* 영속성 컨텍스트가 관리하는 엔티티의 변경 사항을 감지하여, UPDATE SQL을 자동으로 생성하고 실행해주는 JPA의 매우 강력하고 핵심적인 기능
+* **동작 원리: 스냅샷과의 비교**
+* JPA는 "스냅샷" 비교를 통해 이 '마법' 같은 기능을 구현합니다.
+  - 1. **조회 및 스냅샷 생성**: 트랜잭션 안에서 엔티티를 처음 조회하면(`findById()`), JPA는 해당 엔티티를 1차 캐시에 저장할 때 **그 상태 그대로의 복사본(스냅샷)**을 함께 저장.
+  - 2. **엔티티 상태 변경**: 개발자가 코드에서 `setter` 등을 호출하여 영속 상태의 엔티티 필드 값을 변경. 이 변경은 우선 메모리에 있는 객체에만 반영된다.
+  - 3. **변경점 비교**: 트랜잭션 커밋 등으로 **`Flush`가 호출되는 시점**에, JPA는 1차 캐시에 있는 모든 엔티티의 현재 상태와 최초에 저장해둔 스냅샷을 필드별로 일일이 비교한다.
+  - 4. **UPDATE 쿼리 자동 생성**: 만약 두 상태가 다르다면(즉, 변경이 감지되면), JPA는 변경된 내용을 바탕으로 `UPDATE` 쿼리를 자동으로 생성하여 '쓰기 지연 SQL 저장소'에 등록한 뒤 데이터베이스에 전송
+## Flush란?
+* 영속성 컨텍스트의 변경 내용을 데이터베이스에 동기화하는 작업
+* '쓰기 지연 SQL 저장소'에 쌓여있던 SQL 쿼리들을 실제 DB로 전송한다.
 
