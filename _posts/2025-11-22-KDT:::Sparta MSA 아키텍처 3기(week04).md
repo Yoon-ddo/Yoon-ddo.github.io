@@ -1,5 +1,5 @@
 ---
-title: KDT:::Sparta MSA 아키텍처 3기(week04) : Spring AI 활용하기
+title: KDT:::Sparta MSA 아키텍처 3기(week04)
 toc: true
 toc_sticky: true
 toc_label: "Contents of Page"
@@ -44,16 +44,19 @@ ollama run llama3
 
 ## 2. 의존성 추가 및 설정
 * build.gradle 의존성 추가
+  
 ```Java
 dependencies {
     implementation 'com.google.genai:google-genai:1.28.0'
 }
 ```
+
 * 발급받은 api키를 환경변수로 지정(터미널한정)
   - export GEMINI_API_KEY="your_real_key_here"
   - your_real_key_here : api 키로 변경
   - 위 명령어를 입력하면 현재 터미널 세션에서만 사용
 * application.yml 파일 내용추가
+
 ```
 gemini:
   api:
@@ -96,3 +99,4 @@ springAI_Project ## ✅  Google Gemini 연동에 필요한 모든 핵심 요소�
             ├── application.yml ## ✅ API Key 설정 ${GEMINI_API_KEY}
             └── (기타 설정 파일)
 ```
+
