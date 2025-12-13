@@ -19,6 +19,8 @@ tags:
 * 쿼리 실행 - 즉시 반영 되지 않음 (auto commit = false라서)
 * commit / rollback 을 명시적으로 호출해야 반영된다.
 
+<br><br>
+
 # 2. JDBC 트랜잭션 코드
 * 내부적으로 connection 선언해서 쓰는방법
 
@@ -81,6 +83,7 @@ tags:
 ```
 
 * JDBC 관리
+
 ```Java
 @Slf4j
 @Service
@@ -128,6 +131,7 @@ public class CategoryJdbcService {
 }
 ```
 
+<br>
 
 * JPA에서 트랜잭션 관리하는 방법
   - 알아서 커넥션이 초기화되고, 관리가됨. (JDBC와의 차이점) 
@@ -166,6 +170,7 @@ public class ProductTransactionService {
     }
 }
 ```
+<br><br>
 
 # 3. 격리성
 * 동시성 문제를 얼마나 허용할지 설정
@@ -179,6 +184,7 @@ public class ProductTransactionService {
 | `REPEATABLE_READ`  | 동일 조회 결과 보장. 한 트랜잭션이 시작되기 전에 커밋된 내용만 조회하며, 트랜잭션이 끝날 때까지 다른 트랜잭션이 특정 데이터를 수정(UPDATE)하거나 삭제(DELETE)할 수 없도록 막습니다. 이로써 Non-Repeatable Read 문제를 해결합니다. |
 | `SERIALIZABLE`     | 가장 엄격. 조회해온 목록을 gap lock 걸고, 다른 쪽에서 변경거래 시 막아버림. 특정 범위의 데이터를 읽을 때, 해당 범위 전체에 잠금을 걸어 다른 트랜잭션이 그 범위에 새로운 데이터를 추가(INSERT)하는 것조차 막습니다.      |
 
+<br><br>
 
 # 4. Dirty read
 * commit되지 않은 데이터를 조회해옴.
@@ -187,6 +193,8 @@ public class ProductTransactionService {
   - 리포트/정산 조회처럼 “트랜잭션 전체에서 같은 화면/스냅샷”이 중요 → 격리수준 올리기(가능하면 readOnly로)
   - 조회 후 반드시 이어서 수정(쿠폰 사용, 잔액 차감, 상태 변경 등) → SELECT FOR UPDATE(비관적 락) 또는 “조건부 UPDATE”
   - 락 경합이 걱정 + 업데이트 충돌만 감지하면 됨 → 낙관적 락(@Version)
+
+<br><br>
 
 # 5. Phantom Read
 * 하나의 트랜잭션 안에서 같은 조건으로 두 번 조회했을 때, 없던 행이 생기거나(또는 있던 행이 사라지는) 현상
@@ -199,7 +207,7 @@ public class ProductTransactionService {
 | 원인    | UPDATE              | INSERT / DELETE  |
 | 예시    | 잔액 100 → 80         | ACTIVE 10건 → 11건 |
 
-
+<br><br>
 
 # 6. lock
 * 종류
@@ -207,10 +215,12 @@ public class ProductTransactionService {
   - **갭 잠금 (Gap Lock)**: 데이터 행과 행 사이의 '**간격**'에 거는 잠금입니다. 이 간격에 새로운 데이터가 `INSERT`되는 것을 막는 역할을 합니다.
   - **넥스트 키 잠금 (Next-Key Lock)**: **레코드 잠금과 갭 잠금을 합친 것**으로, 특정 행과 그 이전 간격까지 함께 잠급니다. (MySQL InnoDB의 `REPEATABLE READ`에서 사용됨)
   - **범위 잠금 / 서술 잠금 (Range Lock / Predicate Lock)**: `WHERE` 절에 사용된 **조건(범위) 전체**를 잠그는 가장 강력한 잠금입니다.
+
 ## 6-1. 비관적 락(Pessimistic Lock)
 * 비관적 락은 **데이터에 접근하기 전에 해당 자원을 선점하여 다른 트랜잭션이 접근하지 못하도록 차단하는 방식**입니다.
 * 데이터를 보호하는 데 초점을 맞추며, 충돌 가능성이 높은 환경에서 주로 사용됩니다.
 * default로 사용. 
+
 ## 6-2. 낙관적 락(Optimistic Lock)
 * 낙관적 락은 데이터에 락을 걸지 않고 트랜잭션을 수행한 뒤, 충돌 여부를 확인하여 필요한 경우 작업을 다시 수행하는 방식입니다.
 * 충돌이 드물다고 가정하는 환경에서 효율적으로 작동합니다.
